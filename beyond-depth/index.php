@@ -21,6 +21,9 @@
         <!-- Background -->
         <div class="bd-bg"></div>
 
+        <!-- Loading -->
+        <?php include_once __DIR__ . '/../features/loading/loading.php'; ?>
+
         <!-- Navbar -->
         <?php include_once __DIR__ . '/../features/navbar.php'; ?>
 
