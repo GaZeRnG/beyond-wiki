@@ -202,13 +202,22 @@
         @apply w-auto h-37.5 drop-shadow-[0_0_10px_rgba(143,143,143,0.5)];
     }
     .hub-page .main {
-        @apply bg-[#a0a0a01f] border border-[#868686] shadow-lg rounded-[10px] p-5 backdrop-blur-[5px] mx-auto max-w-[90%] mb-5 pt-2.5 text-center;
+        @apply flex flex-row mx-auto max-w-[90%];
+    }
+    .hub-page .left-main, .hub-page .right-main {
+        @apply border rounded-[10px] p-5 backdrop-blur-[5px] w-[18%] justify-between mb-5 pt-2.5 text-center transition-all duration-500;
+        background-color: color-mix(in srgb, var(--theme-color, #a0a0a01f), transparent 90%);
+        border-color: var(--theme-color, #868686);
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1), 0 0 15px color-mix(in srgb, var(--theme-color, transparent), transparent 70%);
+    }
+    .hub-page .center-main {
+        @apply border rounded-[10px] p-5 backdrop-blur-[5px] w-[60%] mx-auto mb-5 pt-2.5 text-center transition-all duration-500;
+        background-color: color-mix(in srgb, var(--theme-color, #a0a0a01f), transparent 90%);
+        border-color: var(--theme-color, #868686);
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1), 0 0 20px color-mix(in srgb, var(--theme-color, transparent), transparent 60%);
     }
     .hub-page .welcome {
         @apply text-[18px];
-    }
-    .hub-page .main-content {
-        @apply grid grid-cols-3 justify-between gap-[25%];
     }
     
     /* Carousel */
@@ -232,7 +241,7 @@
         @apply absolute left-1/2 -translate-x-1/2 flex gap-4 z-20;
     }
     .hub-page .wiki-links-buttons button {
-        @apply btn btn-circle transition bg-[rgb(60,60,60)] hover:bg-[rgb(39,39,39)] active:bg-[rgb(39,39,39)];
+        @apply btn btn-square transition bg-[rgb(60,60,60)] hover:bg-[rgb(39,39,39)] active:bg-[rgb(39,39,39)];
     }
 
     /* Carousel Positions */
@@ -251,8 +260,27 @@
         opacity: 1;
         z-index: 10;
     }
+    .hub-page .wiki-links-images .mod[data-pos="center"][data-index="0"] img {
+        @apply drop-shadow-[0_0_15px_rgba(0,150,255,0.6)];
+    }
+    .hub-page .wiki-links-images .mod[data-pos="center"][data-index="1"] img {
+        @apply drop-shadow-[0_0_15px_rgba(255,215,0,0.6)];
+    }
+    .hub-page .wiki-links-images .mod[data-pos="center"][data-index="2"] img {
+        @apply drop-shadow-[0_0_15px_rgba(158,158,158,0.6)];
+    }
+    .hub-page .wiki-links-images .mod[data-pos="center"][data-index="3"] img {
+        @apply drop-shadow-[0_0_15px_rgba(1,71,238,0.6)];
+    }
+    .hub-page .wiki-links-images .mod[data-pos="center"][data-index="4"] img {
+        @apply drop-shadow-[0_0_15px_rgba(50,205,50,0.6)];
+    }
+    .hub-page .wiki-links-images .mod[data-pos="center"][data-index="5"] img {
+        @apply drop-shadow-[0_0_15px_rgba(103,42,236,0.6)];
+    }
+    
     .hub-page .wiki-links-images .mod[data-pos="center"] img {
-        @apply drop-shadow-[0_0_10px_rgba(143,143,143,0.5)];
+        @apply scale-110;
     }
     .hub-page .wiki-links-images .mod[data-pos="right"] {
         transform: translateX(140px) translateZ(-150px) rotateY(-15deg) scale(0.8);
