@@ -17,7 +17,7 @@
 
     <body class="hub-page">
         <!-- Loading -->
-        <?php # include_once __DIR__ . '/features/loading/loading.php'?>
+        <?php include_once __DIR__ . '/features/loading/loading.php'?>
 
         <!-- Navbar -->
         <?php include_once __DIR__ . '/features/navbar.php'; ?>
@@ -38,7 +38,9 @@
         <!-- Main -->
         <section class="main">
             <section class="left-main">
-                aaaaaaaa
+                <b>Upcoming Feature:</b>
+                <hr class="mx-auto w-[90%] my-4">
+                tbh dont know what to add here. Suggest it in Discord
             </section>
 
             <section class="center-main">
@@ -66,7 +68,9 @@
             </section>
 
             <section class="right-main">
-                aaaaaaa
+                <b>Upcoming Feature:</b>
+                <hr class="mx-auto w-[90%] my-4">
+                Top Contributors???
             </section>
         </section>
 
