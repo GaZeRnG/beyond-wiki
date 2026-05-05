@@ -589,3 +589,129 @@
 }
 
 /* npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch */
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .hub-page .left-main, 
+    .hub-page .right-main {
+        @apply w-[22%];
+    }
+    .hub-page .center-main {
+        @apply w-[52%];
+    }
+}
+
+@media (max-width: 768px) {
+    /* Navbar */
+    .nav .search {
+        @apply w-auto flex-1 mx-4;
+    }
+    .nav .user p {
+        @apply hidden;
+    }
+
+    /* Hub Page */
+    .hub-page .logo {
+        @apply my-6;
+    }
+    .hub-page .logo img {
+        @apply h-28;
+    }
+    .hub-page .main {
+        @apply flex-col items-center max-w-[95%];
+    }
+    .hub-page .left-main, 
+    .hub-page .right-main, 
+    .hub-page .center-main {
+        @apply w-full mb-5;
+    }
+    
+    /* Carousel Adjustments for Mobile */
+    .hub-page .wiki-links {
+        @apply h-52;
+    }
+    .hub-page .wiki-links-images .mod img {
+        @apply max-h-28;
+    }
+    .hub-page .wiki-links-images .mod[data-pos="far-left"] {
+        transform: translateX(-180px) translateZ(-250px) rotateY(25deg) scale(0.5);
+        opacity: 0.1;
+    }
+    .hub-page .wiki-links-images .mod[data-pos="left"] {
+        transform: translateX(-100px) translateZ(-120px) rotateY(15deg) scale(0.7);
+    }
+    .hub-page .wiki-links-images .mod[data-pos="right"] {
+        transform: translateX(100px) translateZ(-120px) rotateY(-15deg) scale(0.7);
+    }
+    .hub-page .wiki-links-images .mod[data-pos="far-right"] {
+        transform: translateX(180px) translateZ(-250px) rotateY(-25deg) scale(0.5);
+        opacity: 0.1;
+    }
+
+    /* BD Page */
+    .bd-page .full {
+        @apply flex-col max-w-[95%];
+    }
+    .bd-page .categories {
+        @apply grid-cols-1 max-w-[95%];
+    }
+    .bd-page .logo img {
+        @apply h-28;
+    }
+    .bd-page .bosses .tier {
+        @apply grid-cols-1;
+    }
+    .bd-page .items ul {
+        @apply grid-cols-1;
+    }
+    .bd-page .tips {
+        @apply max-w-[95%];
+    }
+    
+    /* Login/Register */
+    .login-page .login-container,
+    .register-page .register-container {
+        @apply w-[90%] p-4;
+    }
+    .login-page .login-submit,
+    .register-page .register-submit {
+        @apply w-[50%];
+    }
+    
+    /* Footer */
+    .footer .last {
+        @apply grid-cols-1 gap-6;
+    }
+    .footer .cflink {
+        @apply flex-wrap justify-center gap-4;
+    }
+}
+
+@media (max-width: 480px) {
+    .hub-page .warning {
+        @apply text-[14px] p-2;
+    }
+    .hub-page .welcome {
+        @apply text-[16px];
+    }
+    .nav {
+        @apply px-3;
+    }
+    .nav .search {
+        @apply mx-2;
+    }
+    .hub-page .logo img,
+    .bd-page .logo img {
+        @apply h-20;
+    }
+    .hub-page .wiki-links {
+        @apply h-40;
+    }
+    .hub-page .wiki-links-images .mod img {
+        @apply max-h-20;
+    }
+    .hub-page .wiki-links-images .mod[data-pos="far-left"],
+    .hub-page .wiki-links-images .mod[data-pos="far-right"] {
+        @apply hidden;
+    }
+}
