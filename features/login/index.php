@@ -115,8 +115,8 @@
                     
                     <!-- Remember Me -->
                     <label class="login-remember">
-                        <input type="checkbox" id="remember-link" name="remember" class="checkbox bg-neutral-800 checked:bg-green-500" value="1">
-                        Remember Me
+                        <input type="checkbox" id="remember-link" name="remember" class="checkbox bg-neutral-800 checked:bg-neutral-500" value="1">
+                        Stay Signed In
                     </label>
 
                     <button type="submit" class="login-submit">Login</button>
