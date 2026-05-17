@@ -1,7 +1,5 @@
 This is the source code for the Beyond Wiki
 
-Completion: 30%
+Completion: 10%
 
-Currently status: updating ui to daisyui
-
-Next Plan: Change to laravel
+Currently status: Remaking EVERYTHING
