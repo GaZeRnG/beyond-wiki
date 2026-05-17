@@ -1,0 +1,25 @@
+{
+    "liveServer.settings.port": 5500,
+    "liveServer.settings.multiRootWorkspaceName": "Beyond Wiki",
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#003aad",
+        "activityBar.background": "#003aad",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#20000b",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#003aad",
+        "statusBar.background": "#00297a",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#003aad",
+        "statusBarItem.remoteBackground": "#00297a",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#00297a",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#00297a99",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#00297a",
+    "sqltools.connections": [],
+}
