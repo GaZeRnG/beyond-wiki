@@ -1,9 +1,69 @@
 @import "tailwindcss";
+@plugin "daisyui";
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
+@layer base {
+    body {
+        @apply font-sans text-white text-[15px] m-0;
+    }
+    .login-page, .register-page {
+        @apply pb-0 m-0;
+    }
+    .hub-page, .login-page, .register-page {
+        @apply bg-repeat bg-blend-multiply bg-zinc-700 bg-[url('/Images/background.webp')] bg-size-[50px] select-none;
+    }
+    .bd-page .bd-bg, .view-tip-page .view-tip-bg, .add-tip-page .add-tip-bg {
+        @apply fixed inset-0 -z-10 bg-[url('/Images/bd_background.webp')] bg-size-[4318px_100%] bg-repeat-x bg-position-[0%_0%];
+        filter: blur(3px);
+        animation: bgAnimation 100s linear infinite;
+    }
 
+    @keyframes bgAnimation {
+        0% { background-position: 0 0; }
+        100% { background-position: -4318px 0; }
+    }
+}
+
+/* Scrollbar */
+@layer base {
+    ::-webkit-scrollbar {
+        width: 13px;
+    }
+    ::-webkit-scrollbar-track {
+        @apply bg-neutral-800 inset-shadow-[0_0_5px_rgba(143,143,143,0.5)] rounded-[10px];
+    }
+    ::-webkit-scrollbar-thumb {
+        @apply bg-neutral-600 rounded-[10px] border-[3px] border-solid border-transparent bg-clip-padding;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-neutral-500 rounded-[10px] border-[3px] border-solid border-transparent bg-clip-padding;
+    }
+
+    ::-webkit-scrollbar-button:decrement {
+        @apply cursor-pointer bg-size-[20px] h-4 border-none;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" strokeWidth="4.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up-icon lucide-chevron-up"><path d="m18 15-6-6-6 6"/></svg>') no-repeat center;
+    }
+
+    ::-webkit-scrollbar-button:increment {
+        @apply cursor-pointer bg-size-[20px] h-4 border-none;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" strokeWidth="4.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>') no-repeat center;
+    }
+}
+
+/* Loading */
+@layer components {
+    .loading-screen {
+        @apply fixed inset-0 z-9999 bg-neutral-800 flex flex-col items-center justify-center transition-all duration-700;
+    }
+    .loading-screen .logo-container {
+        @apply relative w-48 h-auto md:w-64 md:h-auto mb-8;
+    }
+    .loading-screen .logo-svg {
+        @apply w-full h-full stroke-white;
+    }
+    .loading-screen .loading-text-container {
+        @apply text-center;
+    }
+    .loading-screen .loading-text {
+        @apply text-white tracking-[0.3em] uppercase;
+    }
+}
