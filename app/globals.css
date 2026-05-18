@@ -9,10 +9,10 @@
         @apply pb-0 m-0;
     }
     .hub-page, .login-page, .register-page {
-        @apply bg-repeat bg-blend-multiply bg-zinc-700 bg-[url('/Images/background.webp')] bg-size-[50px] select-none;
+        @apply bg-repeat bg-blend-multiply bg-zinc-700 bg-[url('/background/background.webp')] bg-size-[50px] select-none;
     }
     .bd-page .bd-bg, .view-tip-page .view-tip-bg, .add-tip-page .add-tip-bg {
-        @apply fixed inset-0 -z-10 bg-[url('/Images/bd_background.webp')] bg-size-[4318px_100%] bg-repeat-x bg-position-[0%_0%];
+        @apply fixed inset-0 -z-10 bg-[url('/background/bd_background.webp')] bg-size-[4318px_100%] bg-repeat-x bg-position-[0%_0%];
         filter: blur(3px);
         animation: bgAnimation 100s linear infinite;
     }
@@ -21,12 +21,10 @@
         0% { background-position: 0 0; }
         100% { background-position: -4318px 0; }
     }
-}
 
-/* Scrollbar */
-@layer base {
+    /* Scrollbar */
     ::-webkit-scrollbar {
-        width: 13px;
+        @apply w-3.25;
     }
     ::-webkit-scrollbar-track {
         @apply bg-neutral-800 inset-shadow-[0_0_5px_rgba(143,143,143,0.5)] rounded-[10px];
@@ -49,8 +47,8 @@
     }
 }
 
-/* Loading */
 @layer components {
+    /* Loading Screen */
     .loading-screen {
         @apply fixed inset-0 z-9999 bg-neutral-800 flex flex-col items-center justify-center transition-all duration-700;
     }
@@ -65,5 +63,113 @@
     }
     .loading-screen .loading-text {
         @apply text-white tracking-[0.3em] uppercase;
+    }
+
+    /* Hub Page */
+    .hub-page .warning {
+        @apply text-[20px] text-[#fdc717e5] font-bold bg-[#f59f0b1f] border border-[#ffa200] w-[90%] mx-auto align-middle rounded-[10px] text-center select-none;
+    }
+    .hub-page .logo {
+        @apply flex justify-center py-5 my-10 select-none;
+    }
+    .hub-page .logo img {
+        @apply w-auto h-37.5 drop-shadow-[0_0_10px_rgba(143,143,143,0.5)];
+    }
+    .hub-page .main {
+        @apply flex flex-row mx-auto max-w-[90%];
+    }
+    .hub-page .left-main, .hub-page .right-main {
+        @apply border rounded-[10px] p-5 backdrop-blur-[5px] w-[18%] justify-between mb-5 pt-2.5 text-center transition-all duration-500;
+        background-color: color-mix(in srgb, var(--theme-color, #a0a0a01f), transparent 90%);
+        border-color: var(--theme-color, #868686);
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1), 0 0 15px color-mix(in srgb, var(--theme-color, transparent), transparent 70%);
+    }
+    .hub-page .center-main {
+        @apply border rounded-[10px] p-5 backdrop-blur-[5px] w-[60%] mx-auto mb-5 pt-2.5 text-center transition-all duration-500;
+        background-color: color-mix(in srgb, var(--theme-color, #a0a0a01f), transparent 90%);
+        border-color: var(--theme-color, #868686);
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1), 0 0 20px color-mix(in srgb, var(--theme-color, transparent), transparent 60%);
+    }
+    .hub-page .welcome {
+        @apply text-[18px];
+    }
+
+    /* Carousel */
+    .hub-page .wiki-links {
+        @apply relative w-full h-60 mt-3 perspective-distant overflow-visible;
+    }
+    .hub-page .wiki-links-images {
+        @apply relative w-full h-50 flex justify-center items-center;
+        transform-style: preserve-3d;
+    }
+    .hub-page .wiki-links-images .mod {
+        @apply absolute transition-all duration-500 ease-out cursor-pointer;
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
+    }
+    .hub-page .wiki-links-images .mod img {
+        @apply h-auto max-h-37.5 w-auto object-contain;
+        transition: all 0.5s ease-out;
+    }
+    .hub-page .wiki-links-buttons {
+        @apply absolute left-1/2 -translate-x-1/2 flex gap-4 z-20;
+    }
+    .hub-page .wiki-links-buttons button {
+        @apply btn btn-square transition bg-[rgb(60,60,60)] hover:bg-[rgb(39,39,39)] active:bg-[rgb(39,39,39)];
+    }
+
+    /* Carousel Positions */
+    .hub-page .wiki-links-images .mod[data-pos="far-left"] {
+        transform: translateX(-280px) translateZ(-300px) rotateY(25deg) scale(0.6);
+        opacity: 0.3;
+        z-index: 1;
+    }
+    .hub-page .wiki-links-images .mod[data-pos="left"] {
+        transform: translateX(-140px) translateZ(-150px) rotateY(15deg) scale(0.8);
+        opacity: 0.8;
+        z-index: 2;
+    }
+    .hub-page .wiki-links-images .mod[data-pos="center"] {
+        transform: translateX(0) translateZ(0) rotateY(0) scale(1);
+        opacity: 1;
+        z-index: 10;
+    }
+    .hub-page .wiki-links-images .mod[data-pos="center"][data-index="0"] img {
+        @apply drop-shadow-[0_0_15px_rgba(0,150,255,0.6)];
+    }
+    .hub-page .wiki-links-images .mod[data-pos="center"][data-index="1"] img {
+        @apply drop-shadow-[0_0_15px_rgba(255,215,0,0.6)];
+    }
+    .hub-page .wiki-links-images .mod[data-pos="center"][data-index="2"] img {
+        @apply drop-shadow-[0_0_15px_rgba(158,158,158,0.6)];
+    }
+    .hub-page .wiki-links-images .mod[data-pos="center"][data-index="3"] img {
+        @apply drop-shadow-[0_0_15px_rgba(1,71,238,0.6)];
+    }
+    .hub-page .wiki-links-images .mod[data-pos="center"][data-index="4"] img {
+        @apply drop-shadow-[0_0_15px_rgba(50,205,50,0.6)];
+    }
+    .hub-page .wiki-links-images .mod[data-pos="center"][data-index="5"] img {
+        @apply drop-shadow-[0_0_15px_rgba(103,42,236,0.6)];
+    }
+    
+    .hub-page .wiki-links-images .mod[data-pos="center"] img {
+        @apply scale-110;
+    }
+    .hub-page .wiki-links-images .mod[data-pos="right"] {
+        transform: translateX(140px) translateZ(-150px) rotateY(-15deg) scale(0.8);
+        opacity: 0.8;
+        z-index: 2;
+    }
+    .hub-page .wiki-links-images .mod[data-pos="far-right"] {
+        transform: translateX(280px) translateZ(-300px) rotateY(-25deg) scale(0.6);
+        opacity: 0.3;
+        z-index: 1;
+    }
+    .hub-page .wiki-links-images .mod[data-pos="hidden"] {
+        transform: translateX(0) translateZ(-500px) scale(0.4);
+        opacity: 0;
+        z-index: 0;
+        pointer-events: none;
     }
 }
