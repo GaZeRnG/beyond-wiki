@@ -21,7 +21,9 @@
         0% { background-position: 0 0; }
         100% { background-position: -4318px 0; }
     }
+}
 
+@layer utilities {
     /* Scrollbar */
     ::-webkit-scrollbar {
         @apply w-3.25;
@@ -63,6 +65,35 @@
     }
     .loading-screen .loading-text {
         @apply text-white tracking-[0.3em] uppercase;
+    }
+
+    /* Navbar */
+    .nav {
+        @apply navbar fixed justify-between bg-neutral-800 px-5 z-10 select-none shadow-[0_0_10px_rgba(143,143,143,0.5)];
+    }
+    .nav img {
+        @apply h-8 w-auto;
+    }
+    .nav .nav_logo {
+        @apply transition-transform duration-300 hover:scale-110 active:scale-110;
+    }
+    .nav .search {
+        @apply input bg-neutral-800 text-white w-[30%];
+    }
+    .nav .drop {
+        @apply dropdown dropdown-end cursor-pointer;
+    }
+    .nav .user {
+        @apply flex items-center text-white text-[10px] cursor-pointer transition-transform duration-300 hover:scale-110 active:scale-110;
+    }
+    .nav .user p {
+        @apply mr-1;
+    }
+    .nav .drop_menu {
+        @apply menu menu-sm bg-neutral-700 rounded-box z-1 mt-3 w-52;
+    }
+    .nav .drop-menu li {
+        @apply align-middle;
     }
 
     /* Hub Page */
@@ -108,7 +139,7 @@
         backface-visibility: hidden;
     }
     .hub-page .wiki-links-images .mod img {
-        @apply h-auto max-h-37.5 w-auto object-contain;
+        @apply h-30 w-auto object-contain;
         transition: all 0.5s ease-out;
     }
     .hub-page .wiki-links-buttons {

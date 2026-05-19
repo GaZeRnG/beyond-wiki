@@ -17,7 +17,7 @@ export default function RootLayout({
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <title>Beyond Wiki</title>
             </head>
-            <body className="hub-page">{children}</body>
+            <body>{children}</body>
         </html>
     );
 }
