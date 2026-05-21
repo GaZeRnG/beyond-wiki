@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-@layer base {
+@layer base {   
     body {
         @apply font-sans text-white text-[15px] m-0;
     }
@@ -9,10 +9,10 @@
         @apply pb-0 m-0;
     }
     .hub-page, .login-page, .register-page {
-        @apply bg-repeat bg-blend-multiply bg-zinc-700 bg-[url('/background/background.webp')] bg-size-[50px] select-none;
+        @apply bg-repeat bg-blend-multiply bg-zinc-700 bg-[url('/background/background.png')] bg-size-[50px] select-none;
     }
     .bd-page .bd-bg, .view-tip-page .view-tip-bg, .add-tip-page .add-tip-bg {
-        @apply fixed inset-0 -z-10 bg-[url('/background/bd_background.webp')] bg-size-[4318px_100%] bg-repeat-x bg-position-[0%_0%];
+        @apply fixed inset-0 -z-10 bg-[url('/background/bd_background.png')] bg-size-[4318px_100%] bg-repeat-x bg-position-[0%_0%];
         filter: blur(3px);
         animation: bgAnimation 100s linear infinite;
     }
@@ -20,32 +20,6 @@
     @keyframes bgAnimation {
         0% { background-position: 0 0; }
         100% { background-position: -4318px 0; }
-    }
-}
-
-@layer utilities {
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-        @apply w-3.25;
-    }
-    ::-webkit-scrollbar-track {
-        @apply bg-neutral-800 inset-shadow-[0_0_5px_rgba(143,143,143,0.5)] rounded-[10px];
-    }
-    ::-webkit-scrollbar-thumb {
-        @apply bg-neutral-600 rounded-[10px] border-[3px] border-solid border-transparent bg-clip-padding;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        @apply bg-neutral-500 rounded-[10px] border-[3px] border-solid border-transparent bg-clip-padding;
-    }
-
-    ::-webkit-scrollbar-button:decrement {
-        @apply cursor-pointer bg-size-[20px] h-4 border-none;
-        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" strokeWidth="4.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up-icon lucide-chevron-up"><path d="m18 15-6-6-6 6"/></svg>') no-repeat center;
-    }
-
-    ::-webkit-scrollbar-button:increment {
-        @apply cursor-pointer bg-size-[20px] h-4 border-none;
-        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" strokeWidth="4.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>') no-repeat center;
     }
 }
 
@@ -96,12 +70,38 @@
         @apply align-middle;
     }
 
+    /* Footer */
+    .footer {
+        @apply bg-neutral-800 shadow-[0_0_10px_rgba(143,143,143,0.5)] p-3 grid grid-cols-3;
+    }
+    .footer img {
+        @apply transition-transform duration-300 hover:scale-120 active:scale-120 h-6.25;
+    }
+    .footer .contribute, .footer .join {
+        @apply flex flex-col;
+    }
+    .footer .joining {
+        @apply flex justify-center gap-2.5;
+    }
+    .footer .joining img {
+        @apply h-6 w-auto;
+    }
+    .footer .official {
+        @apply flex justify-center items-center gap-0.5;
+    }
+    .footer .cflink {
+        @apply flex flex-row items-center gap-2.5;
+    }
+    .footer .cflink img {
+        @apply h-7.5 w-auto;
+    }
+
     /* Hub Page */
     .hub-page .warning {
         @apply text-[20px] text-[#fdc717e5] font-bold bg-[#f59f0b1f] border border-[#ffa200] w-[90%] mx-auto align-middle rounded-[10px] text-center select-none;
     }
     .hub-page .logo {
-        @apply flex justify-center py-5 my-10 select-none;
+        @apply flex justify-center my-10 select-none;
     }
     .hub-page .logo img {
         @apply w-auto h-37.5 drop-shadow-[0_0_10px_rgba(143,143,143,0.5)];

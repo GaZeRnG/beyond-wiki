@@ -23,6 +23,7 @@
         "daisyui": "^5.5.19",
         "eslint": "^9",
         "eslint-config-next": "16.2.6",
+        "tailwind-scrollbar": "^4.0.2",
         "tailwindcss": "^4.3.0",
         "typescript": "^5"
     }

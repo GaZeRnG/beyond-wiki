@@ -1,9 +1,17 @@
-import type { Metadata } from "next";
 import "./globals.css";
+import type { Metadata } from "next";
+import Footer from "./components/footer";
 
 export const metadata: Metadata = {
     title: "Beyond Wiki"
 };
+
+const config = {
+    corePlugins: {
+        preflight: false,  // Removes Tailwind reset
+    },
+};
+
 
 export default function RootLayout({
     children,
@@ -17,7 +25,10 @@ export default function RootLayout({
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <title>Beyond Wiki</title>
             </head>
-            <body>{children}</body>
+            <body>
+                {children}
+                <Footer />
+            </body>
         </html>
     );
 }

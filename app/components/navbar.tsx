@@ -31,10 +31,10 @@ export default function Navbar({page = ""}: NavbarProps) {
             {/* Logo */}
             <section>
                 {isHub ? (
-                    <Image src="/logo/Beyond_Wiki_logo_crop.webp" alt="Beyond Wiki Logo" width={40} height={40} />
+                    <Image src="/logo/Beyond_Wiki_logo_crop.png" alt="Beyond Wiki Logo" width={40} height={40} />
                 ) : (
                     <Link href="/" className='nav_logo'>
-                        <Image src="/logo/Beyond_Wiki_logo_crop.webp" alt="Beyond Wiki Logo" width={40} height={40} />
+                        <Image src="/logo/Beyond_Wiki_logo_crop.png" alt="Beyond Wiki Logo" width={40} height={40} />
                     </Link>
                 )}
             </section>

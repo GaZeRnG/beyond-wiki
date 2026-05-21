@@ -20,12 +20,13 @@ export default function Home() {
     ];
 
     const modpacks = [
-        { href: "/", img: "/logo/Beyond_Ocean_logo_crop.webp", alt: "Beyond Ocean" },
-        { href: "/", img: "/logo/Beyond_Ascension_logo_crop.webp", alt: "Beyond Ascension" },
-        { href: "/beyond-depth/", img: "/logo/Beyond_Depth_logo_crop.webp", alt: "Beyond Depth" },
-        { href: "/", img: "/logo/Beyond_Cosmo_logo_crop.webp", alt: "Beyond Cosmo" },
-        { href: "/", img: "/logo/Beyond_Zombie_logo_crop.webp", alt: "Beyond Zombie" },
-        { href: "/", img: "/logo/Beyond_Nightfall_logo_crop.webp", alt: "Beyond Nightfall" },
+        { href: "/", img: "/logo/Beyond_Ocean_logo_crop.png", alt: "Beyond Ocean" },
+        { href: "/", img: "/logo/Beyond_Ascension_logo_crop.png", alt: "Beyond Ascension" },
+        { href: "/beyond-depth/", img: "/logo/Beyond_Depth_logo_crop.png", alt: "Beyond Depth" },
+        { href: "/", img: "/logo/Beyond_Cosmo_logo_crop.png", alt: "Beyond Cosmo" },
+        { href: "/", img: "/logo/Beyond_Zombie_logo_crop.png", alt: "Beyond Zombie" },
+        { href: "/", img: "/logo/Beyond_Nightfall_logo_crop.png", alt: "Beyond Nightfall" },
+        // { href: "/", img: "/logo/Beyond_Shenanigans_logo.png", alt: "Beyond Shenanigans" },
     ];
 
     // Carousel rotation
@@ -106,7 +107,7 @@ export default function Home() {
 
             {/* Logo */}
             <section className="logo">
-                <Image src="/logo/Beyond_Wiki_logo_crop.webp" alt="Beyond Wiki Logo" width={300} height={150} />
+                <Image src="/logo/Beyond_Wiki_logo_crop.png" alt="Beyond Wiki Logo" width={300} height={150} />
             </section>
 
             {/* Main */}
