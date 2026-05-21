@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface NavbarProps {
     page?: string;
@@ -11,6 +11,18 @@ interface NavbarProps {
 export default function Navbar({page = ""}: NavbarProps) {
     const [user, setUser] = useState<{ name: string; pfp: string | null } | null>(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setDropdownOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const isHub = page === "hub";
 
@@ -19,11 +31,11 @@ export default function Navbar({page = ""}: NavbarProps) {
             {/* Logo */}
             <section>
                 {isHub ? (
+                    <Image src="/logo/Beyond_Wiki_logo_crop.webp" alt="Beyond Wiki Logo" width={40} height={40} />
+                ) : (
                     <Link href="/" className='nav_logo'>
                         <Image src="/logo/Beyond_Wiki_logo_crop.webp" alt="Beyond Wiki Logo" width={40} height={40} />
                     </Link>
-                ) : (
-                    <Image src="/logo/Beyond_Wiki_logo_crop.webp" alt="Beyond Wiki Logo" width={40} height={40} />
                 )}
             </section>
 
@@ -34,8 +46,8 @@ export default function Navbar({page = ""}: NavbarProps) {
             </section>
 
             {/* User */}
-            <section className="drop">
-                <div className="user" tabIndex={0} role="button" onClick={() => setDropdownOpen(!dropdownOpen)} onBlur={() => setTimeout(() => setDropdownOpen(false), 150)}>
+            <section className="drop" ref={dropdownRef}>
+                <div className="user" tabIndex={0} role="button" onClick={() => setDropdownOpen(!dropdownOpen)}>
                     {user ? (
                         <>
                             <p>{user.name}</p>
@@ -58,34 +70,32 @@ export default function Navbar({page = ""}: NavbarProps) {
                 </div>
 
                 {/* Dropdown Menu */}
-                {dropdownOpen && (
-                    <ul className="drop_menu dropdown-content">
-                        {user ? (
-                            <>
-                                <li>
-                                    <Link href="components/profile">
-                                        <ProfileIcon />
-                                        Profile
-                                    </Link>
-                                </li>
-                                <hr className="my-2 border-gray-600"></hr>
-                                <li>
-                                    <Link href="/api/auth/logout">
-                                        <LogoutIcon />
-                                        Logout
-                                    </Link>
-                                </li>
-                            </>
-                        ) : (
+                <ul className="drop_menu dropdown-content ${dropdownOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2 pointer-events-none'}">
+                    {user ? (
+                        <>
                             <li>
-                                <Link href="/api/auth/login">
-                                    <LoginIcon />
-                                    Login
+                                <Link href="components/profile" onClick={() => setDropdownOpen(false)}>
+                                    <ProfileIcon />
+                                    Profile
                                 </Link>
                             </li>
-                        )}
-                    </ul>
-                )}
+                            <hr className="my-2 border-gray-600"></hr>
+                            <li>
+                                <Link href="/api/auth/logout" onClick={() => setDropdownOpen(false)}>
+                                    <LogoutIcon />
+                                    Logout
+                                </Link>
+                            </li>
+                        </>
+                    ) : (
+                        <li>
+                            <Link href="/api/auth/login" onClick={() => setDropdownOpen(false)}>
+                                <LoginIcon />
+                                Login
+                            </Link>
+                        </li>
+                    )}
+                </ul>
             </section>
         </nav>
     );

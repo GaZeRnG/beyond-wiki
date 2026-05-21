@@ -96,6 +96,8 @@ export default function Home() {
         <main className="hub-page">
             <Navbar page="hub" />
 
+            <div className='h-20'></div>
+
             {/* Warning */}
             <section className="warning">
                 <h2>This wiki is currently under development and will have LIMITED or NO INFO at all.</h2>
@@ -104,7 +106,7 @@ export default function Home() {
 
             {/* Logo */}
             <section className="logo">
-                <Image src="/logo/Beyond_Wiki_logo_crop.webp" alt="Beyond Wiki Logo" priority width={300} height={150} />
+                <Image src="/logo/Beyond_Wiki_logo_crop.webp" alt="Beyond Wiki Logo" width={300} height={150} />
             </section>
 
             {/* Main */}
