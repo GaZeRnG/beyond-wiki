@@ -25,9 +25,9 @@ export async function GET(request: Request) {
                     oauth_id: metadata.sub || metadata.provider_id,
                 }, { onConflict: 'id' })
 
-            return NextResponse.redirect(`${origin}/`)
+            return NextResponse.redirect(`/`)
         }
     }
 
-    return NextResponse.redirect(`${origin}/login?error=auth_failed`)
+    return NextResponse.redirect(`/login?error=auth_failed`)
 }
