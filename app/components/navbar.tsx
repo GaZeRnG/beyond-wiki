@@ -72,7 +72,7 @@ export default function Navbar({page = ""}: {page?: string}) {
 
             {/* User */}
             <section className="drop" ref={dropdownRef}>
-                <div className="user" onClick={() => setDropdownOpen(!dropdownOpen)}>
+                <div className="user" tabIndex={0} role="button" onClick={() => setDropdownOpen(!dropdownOpen)}>
                     {user ? (
                         <>
                             <p>{userData?.user_name || user.email?.split('@')[0]}</p>
