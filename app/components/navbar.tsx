@@ -1,17 +1,32 @@
 "use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { createClient } from "../../lib/supabase-browser";
+import LogoutButton from "./logoutButton";
 
-interface NavbarProps {
-    page?: string;
-}
-
-export default function Navbar({page = ""}: NavbarProps) {
-    const [user, setUser] = useState<{ name: string; pfp: string | null } | null>(null);
+export default function Navbar({page = ""}: {page?: string}) {
+    const [user, setUser] = useState<any>(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+
+    const supabase = createClient();
+
+    useEffect(() => {
+        const getUser = async () => {
+            const { data: {user} } = await supabase.auth.getUser();
+            setUser(user);
+        };
+
+        getUser();
+
+        const { data: {subscription} } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
+
+        return () => subscription?.unsubscribe();
+    }, []);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -52,8 +67,8 @@ export default function Navbar({page = ""}: NavbarProps) {
                         <>
                             <p>{user.name}</p>
                             <div className="user-icon" id="user-icon">
-                                {user.pfp ? (
-                                    <Image src={user.pfp} alt="Profile Picture" width={32} height={32} className="avatar rounded-full" />
+                                {user.avatar_url ? (
+                                    <Image src={user.avatar_url} alt="Profile" width={32} height={32} className="avatar rounded-full" />
                                 ) : (
                                     <DefaultUserIcon />
                                 )}
@@ -74,22 +89,19 @@ export default function Navbar({page = ""}: NavbarProps) {
                     {user ? (
                         <>
                             <li>
-                                <Link href="components/profile" onClick={() => setDropdownOpen(false)}>
+                                <Link href="/profile" onClick={() => setDropdownOpen(false)}>
                                     <ProfileIcon />
                                     Profile
                                 </Link>
                             </li>
                             <hr className="my-2 border-gray-600"></hr>
                             <li>
-                                <Link href="/api/auth/logout" onClick={() => setDropdownOpen(false)}>
-                                    <LogoutIcon />
-                                    Logout
-                                </Link>
+                                <LogoutButton />
                             </li>
                         </>
                     ) : (
                         <li>
-                            <Link href="/api/auth/login" onClick={() => setDropdownOpen(false)}>
+                            <Link href="/login" onClick={() => setDropdownOpen(false)}>
                                 <LoginIcon />
                                 Login
                             </Link>
@@ -113,11 +125,11 @@ function ProfileIcon() {
     );
 }
 
-function LogoutIcon() {
-    return(
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-log-out-icon lucide-log-out"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
-    );
-}
+// function LogoutIcon() {
+//     return(
+//         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-log-out-icon lucide-log-out"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
+//     );
+// }
 
 function LoginIcon() {
     return(

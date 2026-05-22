@@ -96,6 +96,44 @@
         @apply h-7.5 w-auto;
     }
 
+    /* Login */
+    .login-page .login-whole {
+        @apply h-screen grid grid-cols-1 place-items-center;
+    }
+    .login-page .login-container {
+        @apply max-w-125 w-[85%] bg-[#a0a0a01f] border border-[#868686] shadow-[0_0_5px_rgb(143,143,143)] rounded-[10px] p-5 box-border backdrop-blur-[5px] select-none;
+    }
+    .login-page .login-title {
+        @apply text-center text-[20px] font-bold mb-5;
+    }
+    .login-page .login-form {
+        @apply flex flex-col gap-2.5;
+    }
+    .login-page .login-submit {
+        @apply btn bg-neutral-800 border border-neutral-600 rounded-md w-[30%] p-2.5 mx-auto mt-2.5 cursor-pointer hover:bg-neutral-600;
+    }
+    .login-page .login-remember {
+        @apply items-center gap-2.5 mt-2.5 w-fit;
+    }
+    .login-page .login-others {
+        @apply flex flex-row justify-center items-center gap-5 mt-2.5 mb-2.5;
+    }
+    .login-page .login-google {
+        @apply btn bg-white rounded-md w-[25%] p-1 text-center text-black no-underline hover:bg-white/50;
+    }
+    .login-page .login-google a {
+        @apply flex items-center gap-2;
+    }
+    .login-page .login-discord {
+        @apply btn bg-blue-800 rounded-md w-[25%] p-1 text-center text-white no-underline hover:bg-blue-800/50;
+    }
+    .login-page .login-discord a {
+        @apply flex items-center gap-2;
+    }
+    .login-page .login-register {
+        @apply text-white no-underline hover:underline flex justify-center;
+    }
+
     /* Hub Page */
     .hub-page .warning {
         @apply text-[20px] text-[#fdc717e5] font-bold bg-[#f59f0b1f] border border-[#ffa200] w-[90%] mx-auto align-middle rounded-[10px] text-center select-none;
