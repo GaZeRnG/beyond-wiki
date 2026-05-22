@@ -42,6 +42,10 @@ export default function LoginPage() {
             localStorage.setItem("remember_me", "true");
         }
 
+        if (data.user) {
+            await syncUserToTable(data.user);
+        }
+
         router.push("/");
         router.refresh();
     };
@@ -60,6 +64,20 @@ export default function LoginPage() {
             setError(error.message);
         }
     };
+
+    const syncUserToTable = async (user: any) => {
+        const { error } = await supabase
+            .from('users')
+            .upsert({
+                id: user.id,
+                user_email: user.email,
+                user_name: user.user_metadata?.full_name || user.email?.split('@')[0],
+                oauth_provider: 'manual',
+            }, { onConflict: 'id' });
+
+        if (error) console.error('Sync error:', error);
+    };
+
 
     return (
         <>

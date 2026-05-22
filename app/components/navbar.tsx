@@ -8,6 +8,7 @@ import LogoutButton from "./logoutButton";
 
 export default function Navbar({page = ""}: {page?: string}) {
     const [user, setUser] = useState<any>(null);
+    const [userData, setUserData] = useState<any>(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -17,6 +18,15 @@ export default function Navbar({page = ""}: {page?: string}) {
         const getUser = async () => {
             const { data: {user} } = await supabase.auth.getUser();
             setUser(user);
+
+            if (user) {
+                const { data } = await supabase
+                    .from('users')
+                    .select('user_name, user_pfp')
+                    .eq('id', user.id)
+                    .single();
+                setUserData(data);
+            }
         };
 
         getUser();
@@ -62,13 +72,13 @@ export default function Navbar({page = ""}: {page?: string}) {
 
             {/* User */}
             <section className="drop" ref={dropdownRef}>
-                <div className="user" tabIndex={0} role="button" onClick={() => setDropdownOpen(!dropdownOpen)}>
+                <div className="user" onClick={() => setDropdownOpen(!dropdownOpen)}>
                     {user ? (
                         <>
-                            <p>{user.name}</p>
+                            <p>{userData?.user_name || user.email?.split('@')[0]}</p>
                             <div className="user-icon" id="user-icon">
-                                {user.avatar_url ? (
-                                    <Image src={user.avatar_url} alt="Profile" width={32} height={32} className="avatar rounded-full" />
+                                {userData?.user_pfp ? (
+                                    <Image src={userData.user_pfp} alt="Profile" width={32} height={32} className="avatar rounded-full" />
                                 ) : (
                                     <DefaultUserIcon />
                                 )}
