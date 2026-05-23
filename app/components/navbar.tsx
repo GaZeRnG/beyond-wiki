@@ -91,7 +91,7 @@ export default function Navbar({page = ""}: {page?: string}) {
                             <p>{userData?.user_name || user.email?.split('@')[0]}</p>
                             <div className="user-icon" id="user-icon">
                                 {userData?.user_pfp ? (
-                                    <Image src={userData.user_pfp} alt="Profile" width={32} height={32} className="avatar rounded-full" onError={(e) => console.error('Image failed to load:', e.currentTarget.src)}/>
+                                    <Image src={userData.user_pfp} alt="Profile" width={32} height={32} className="avatar rounded-full" unoptimized={userData.user_pfp.startsWith('http')}/>
                                 ) : (
                                     <DefaultUserIcon />
                                 )}
