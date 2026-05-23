@@ -4,71 +4,55 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request) {
     const { searchParams, origin } = new URL(request.url)
     const code = searchParams.get('code')
+    const remember = searchParams.get('remember') === '1'
 
     if (code) {
         const supabase = await createClient()
         const { data: { user }, error } = await supabase.auth.exchangeCodeForSession(code)
         
         if (!error && user) {
-            // DEBUG: Log what Discord actually sends
-            console.log('=== DISCORD USER METADATA ===')
-            console.log(JSON.stringify(user.user_metadata, null, 2))
-            console.log('=== APP METADATA ===')
-            console.log(JSON.stringify(user.app_metadata, null, 2))
-            console.log('=== FULL USER ===')
-            console.log(JSON.stringify({
-                id: user.id,
-                email: user.email,
-                avatar_url: user.user_metadata?.avatar_url,
-                picture: user.user_metadata?.picture,
-                avatar: user.user_metadata?.avatar,
-                custom_claims: user.user_metadata?.custom_claims,
-            }, null, 2))
+            if (remember) {
+                const {data: sessionData} = await supabase.auth.getSession()
+            }
 
             const metadata = user.user_metadata || {}
             const provider = user.app_metadata?.provider || 'discord'
 
-            // Discord specific avatar construction
-            let avatarUrl = metadata.avatar_url 
-                || metadata.picture 
-                || metadata.custom_claims?.avatar_url
+            let avatarUrl = metadata.avatar_url || metadata.picture || metadata.custom_claims?.avatar_url
 
-            // Discord avatar requires special URL construction
             if (!avatarUrl && metadata.avatar && metadata.provider_id) {
-                // Discord avatar hash format: https://cdn.discordapp.com/avatars/{user_id}/{avatar_hash}.png
-                const isGif = metadata.avatar.startsWith('a_')
+                const avatarHash = String(metadata.avatar)
+                const providerId = String(metadata.provider_id)
+                const isGif = avatarHash.startsWith('a_')
                 const ext = isGif ? 'gif' : 'png'
-                avatarUrl = `https://cdn.discordapp.com/avatars/${metadata.provider_id}/${metadata.avatar}.${ext}`
+                avatarUrl = `https://cdn.discordapp.com/avatars/${providerId}/${avatarHash}.${ext}`
             }
 
-            console.log('=== CONSTRUCTED AVATAR URL ===')
-            console.log(avatarUrl)
-
-            const { error: upsertError } = await supabase
+            const {error:upSertError} = await supabase
                 .from('users')
                 .upsert({
                     id: user.id,
                     user_email: user.email,
-                    user_name: metadata.full_name 
-                        || metadata.name 
-                        || metadata.user_name 
+                    user_name: metadata.full_name
+                        || metadata.name
+                        || metadata.user_name
                         || metadata.custom_claims?.global_name
                         || metadata.custom_claims?.username
                         || user.email?.split('@')[0],
-                    user_pfp: avatarUrl || '/Images/pfp/default.webp',
+                    user_pfp: avatarUrl || '/Images/pfp/default.png',
                     oauth_provider: provider,
                     oauth_id: metadata.provider_id || metadata.sub,
-                }, { onConflict: 'id' })
-
-            if (upsertError) {
-                console.error('Upsert error:', upsertError)
+                }, {onConflict: 'id'});
+            
+            if (upSertError) {
+                console.error('Upsert error:', upSertError);
             }
 
             return NextResponse.redirect(`${origin}/`)
         }
-        
+
         if (error) {
-            console.error('Auth error:', error)
+            console.error('Auth error:', error);
         }
     }
 

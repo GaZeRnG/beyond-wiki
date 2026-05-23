@@ -6,12 +6,19 @@ export default function LogoutButton() {
     const router = useRouter();
 
     const handleLogout = async () => {
-        await fetch("/api/auth/logout", { method: "POST" });
+        try {
+            const res = await fetch("/api/auth/logout", { method: "POST" });
+            if (!res.ok) throw new Error("Failed to logout");
 
-        localStorage.removeItem("rememberMe");
+            localStorage.removeItem("remember_me");
+            sessionStorage.removeItem("remember_me");
 
-        router.push("/login");
-        router.refresh();
+            router.push("/login");
+            router.refresh();
+        } catch (error) {
+            console.error('Logout error:', error);
+            window.location.href = "/login";
+        }
     };
 
     return (

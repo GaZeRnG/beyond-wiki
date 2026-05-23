@@ -6,13 +6,6 @@ export const metadata: Metadata = {
     title: "Beyond Wiki"
 };
 
-const config = {
-    corePlugins: {
-        preflight: false,  // Removes Tailwind reset
-    },
-};
-
-
 export default function RootLayout({
     children,
 }: Readonly<{

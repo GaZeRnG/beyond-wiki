@@ -6,65 +6,50 @@ import { createClient } from "../../lib/supabase-browser";
 import Link from "next/link";
 import Navbar from "../components/navbar";
 
-export default function LoginPage() {
+export default function Register() {
     const router = useRouter();
     const supabase = createClient();
-    
+
+    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [rememberMe, setRememberMe] = useState(false);
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    useEffect(() => {
-        const state = rememberMe ? "1" : "0";
-        sessionStorage.setItem("remember_me", state);
-    }, [rememberMe]);
-
-    const handleLogin = async (e: React.FormEvent) => {
+    const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError("");
 
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
-
-        if (error) {
-            setError(error.message);
+        if (password !== confirmPassword) {
+            setError("Passwords do not match");
             setLoading(false);
             return;
         }
 
-        if (rememberMe) {
-            localStorage.setItem("remember_me", "true");
-        } else {
-            localStorage.removeItem("remember_me");
-        }
-
-        if (data.user) {
-            await syncUserToTable(data.user);
-        }
-
-        router.push("/");
-        router.refresh();
-    };
-
-    const handleOAuthLogin = async (provider: "google" | "discord") => {
-        const rememberState = rememberMe ? "1" : "0";
-
-        const { data, error } = await supabase.auth.signInWithOAuth({
-            provider,
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
             options: {
-                redirectTo: `${window.location.origin}/auth/callback?remember=${rememberState}`,
+                data: {
+                    username,
+                },
             },
         });
 
         if (error) {
             setError(error.message);
         }
+
+        if (data.user) {
+            await syncUserToTable(data.user);
+        }
+
+        router.push("/login");
+        router.refresh();
     };
 
     const syncUserToTable = async (user: any) => {
@@ -74,22 +59,21 @@ export default function LoginPage() {
                 id: user.id,
                 user_email: user.email,
                 user_name: user.user_metadata?.full_name || user.email?.split('@')[0],
-                oauth_provider: 'email',
+                oauth_provider: 'manual',
             }, { onConflict: 'id' });
 
         if (error) console.error('Sync error:', error);
     };
 
-
     return (
         <>
-            <main className="login-page">
+            <main className="register-page">
                 <Navbar />
-                <section className="login-whole">
-                    <div className="login-container">
-                        <h1 className="login-title">LOGIN</h1>
+                <section className="register-whole">
+                    <div className="register-container">
+                        <h1 className="register-title">REGISTER</h1>
 
-                        {/* Error Message */}
+                        {/* Error message */}
                         {error && (
                             <div className="bg-red-500/20 border border-red-500/50 text-red-300 p-2 rounded mb-4 text-sm text-center">
                                 {error}
@@ -97,12 +81,19 @@ export default function LoginPage() {
                         )}
 
                         {/* Form */}
-                        <form onSubmit={handleLogin} className="login-form">
-                            {/* Username/Email */}
+                        <form onSubmit={handleRegister} className="register-form">
+                            {/* Username */}
                             <label className="floating-label input validator bg-neutral-800 rounded-md p-2.5 w-full">
                                 <UserIcon />
-                                <span>Username/Email</span>
-                                <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Username/Email" className="bg-transparent border-none outline-none text-white w-full text-sm" />
+                                <span>Username</span>
+                                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required placeholder="Username" className="bg-transparent border-none outline-none text-white w-full text-sm" />
+                            </label>
+
+                            {/* Email */}
+                            <label className="floating-label input validator bg-neutral-800 rounded-md p-2.5 w-full">
+                                <EmailIcon />
+                                <span>Email</span>
+                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Email" className="bg-transparent border-none outline-none text-white w-full text-sm" />
                             </label>
 
                             {/* Password */}
@@ -115,49 +106,39 @@ export default function LoginPage() {
                                 </button>
                             </label>
 
-                            {/* Remember Me */}
-                            <label className="login-remember">
-                                <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="checkbox bg-neutral-800 checked:bg-neutral-500 mr-2" />
-                                Stay logged In
+                            {/* Confirm Password */}
+                            <label className="floating-label input validator bg-neutral-800 rounded-md p-2.5 w-full">
+                                <KeyIcon />
+                                <span>Confirm Password</span>
+                                <input type={showConfirmPassword ? "text" : "password"} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required placeholder="Confirm Password" className="bg-transparent border-none outline-none text-white w-full text-sm pr-10" />
+                                <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white">
+                                    {showConfirmPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                                </button>
                             </label>
-
-                            <button type="submit" disabled={loading} className="login-submit">
-                                {loading ? "Logging In..." : "Login"}
-                            </button>
-
-                            {/* OAuth */}
-                            <div className="login-others">
-                                {/* Google */}
-                                <button type="button" onClick={() => handleOAuthLogin("google")} className="login-google">
-                                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-6 h-6" loading="lazy" />
-                                    Google
-                                </button>
-
-                                {/* Discord */}
-                                <button type="button" onClick={() => handleOAuthLogin("discord")} className="login-discord">
-                                    <img src="https://www.svgrepo.com/show/353655/discord-icon.svg" alt="Discord" className="w-6 h-6" loading="lazy" />
-                                    Discord
-                                </button>
-                            </div>
-
-                            <Link href="/register" className="login-register">
-                                Don't have an account?
-                            </Link>
                         </form>
                     </div>
                 </section>
             </main>
         </>
-    );
+    )
 }
 
 function UserIcon() {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-icon lucide-user">
             <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
             <circle cx="12" cy="7" r="4"/>
         </svg>
-    );
+    )
+}
+
+function EmailIcon() {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-mail-icon lucide-mail">
+            <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/>
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+        </svg>
+    )
 }
 
 function KeyIcon() {

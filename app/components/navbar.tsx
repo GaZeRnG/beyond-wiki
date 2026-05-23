@@ -26,13 +26,26 @@ export default function Navbar({page = ""}: {page?: string}) {
                     .eq('id', user.id)
                     .single();
                 setUserData(data);
+            } else {
+                setUserData(null);
             }
         };
 
         getUser();
 
         const { data: {subscription} } = supabase.auth.onAuthStateChange((_event, session) => {
-            setUser(session?.user ?? null);
+            const newUser = session?.user ?? null;
+            setUser(newUser);
+
+            if (newUser) {
+                supabase.from('users')
+                    .select('user_name, user_pfp')
+                    .eq('id', newUser.id)
+                    .single()
+                    .then(({ data }) => {setUserData(data);});
+            } else {
+                setUserData(null);
+            }
         });
 
         return () => subscription?.unsubscribe();
@@ -95,7 +108,7 @@ export default function Navbar({page = ""}: {page?: string}) {
                 </div>
 
                 {/* Dropdown Menu */}
-                <ul className="drop_menu dropdown-content ${dropdownOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2 pointer-events-none'}">
+                <ul className="drop_menu dropdown-content">
                     {user ? (
                         <>
                             <li>
