@@ -28,30 +28,47 @@ export default function LoginPage() {
         setError("");
 
         let loginEmail = email.trim();
+        console.log('Raw input:', loginEmail);
 
-        if (!loginEmail.includes("@")) {
+        if (!loginEmail.includes('@')) {
             const { data: emailData, error: lookupError } = await supabase
                 .rpc('get_email_by_username', { username_input: loginEmail });
+
+            console.log('Username lookup result:', emailData, lookupError);
 
             if (lookupError || !emailData || emailData.length === 0) {
                 setError("Username not found.");
                 setLoading(false);
                 return;
             }
-
             loginEmail = emailData[0].user_email;
         }
 
+        console.log('Final email for login:', loginEmail);
+
         const { data, error } = await supabase.auth.signInWithPassword({
-            email,
+            email: loginEmail,
             password,
         });
+
+        console.log('Auth response:', data, error);
 
         if (error) {
             setError(error.message);
             setLoading(false);
             return;
         }
+
+        // const { data, error } = await supabase.auth.signInWithPassword({
+        //     email,
+        //     password,
+        // });
+
+        // if (error) {
+        //     setError(error.message);
+        //     setLoading(false);
+        //     return;
+        // }
 
         if (rememberMe) {
             localStorage.setItem("remember_me", "true");
