@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { createClient } from "../../lib/supabase-browser";
+import { createClient } from "@lib/supabase-browser";
 import Link from "next/link";
 import Navbar from "../components/navbar";
 

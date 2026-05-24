@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { createClient } from "../../lib/supabase-browser";
+import { createClient } from "@lib/supabase-browser";
 import LogoutButton from "./logoutButton";
 
 export default function Navbar({page = ""}: {page?: string}) {

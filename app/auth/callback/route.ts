@@ -1,6 +1,6 @@
 // auth/callback/route.ts
-import { createClient } from "../../../lib/supabase-server";
-import { createServiceClient } from "../../../lib/supabase-service"; // add this
+import { createClient } from "@lib/supabase-server";
+import { createServiceClient } from "@lib/supabase-service";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {

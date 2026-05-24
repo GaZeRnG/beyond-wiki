@@ -1,6 +1,5 @@
 'use client';
 
-// import { set } from 'animejs';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Loading() {
