@@ -31,7 +31,7 @@ export default function LoginPage() {
 
         if (!loginEmail.includes("@")) {
             const { data: emailData, error: lookupError } = await supabase
-                .rpc('get_user_by_username', { username_input: loginEmail });
+                .rpc('get_email_by_username', { username_input: loginEmail });
 
             if (lookupError || !emailData || emailData.length === 0) {
                 setError("Username not found.");
