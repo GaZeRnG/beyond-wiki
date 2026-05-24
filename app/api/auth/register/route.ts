@@ -54,23 +54,54 @@ export async function POST(request: Request) {
         const serviceClient = createServiceClient()
 
         // Check is user exists
-        const { data: existing, error: checkError } = await serviceClient
+        const { data: existingUser, error: userCheckError } = await serviceClient
             .from('users')
-            .select('user_name, user_email')
-            .or(`user_name.eq.${trimmedUsername},user_email.eq.${trimmedEmail}`)
+            .select('user_name')
+            .eq('user_name', trimmedUsername)
             .maybeSingle()
         
-        if (checkError) {
-            console.error('Check error:', checkError);
+        if (userCheckError) {
+            console.error('Username check error:', userCheckError);
             return NextResponse.json(
                 { error: "An error occurred while checking user existence." },
                 { status: 500 }
             )
         }
 
-        if (existing) {
+        if (existingUser) {
             return NextResponse.json(
-                { error: "Username or email already exists." },
+                { error: "Username already exists." },
+                { status: 409 }
+            )
+        }
+
+        // Check if email exists
+        const { data: existingEmail, error: emailCheckError } = await serviceClient
+            .from('users')
+            .select('user_email, oauth_provider')
+            .eq('user_email', trimmedEmail)
+            .maybeSingle()
+
+        if (emailCheckError) {
+            console.error('Email check error:', emailCheckError);
+            return NextResponse.json(
+                { error: "Unable to verify email. Please try again." },
+                { status: 500 }
+            )
+        }
+
+        if (existingEmail) {
+            const provider = existingEmail.oauth_provider
+            
+            if (provider && provider !== 'email') {
+                return NextResponse.json(
+                    { error: `Email is already linked with ${provider} account. Please log in with ${provider}.` },
+                    { status: 409 }
+                )
+            }
+
+            return NextResponse.json(
+                { error: "Email already exists." },
                 { status: 409 }
             )
         }
