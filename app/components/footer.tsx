@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 
 const curseforgeLinks = [
@@ -35,14 +34,14 @@ export default function Footer() {
                 <div className="joining">
                     <p>Discord:</p>
                     <a href="https://discord.gg/VqrxmqZP" target="_blank" rel="noopener noreferrer">
-                        <Image src="/logo/discord.webp" alt="Discord Logo" width={32} height={32} />
+                        <Image src="/logo/discord.png" alt="Discord Logo" width={32} height={32} />
                     </a>
                 </div>
 
                 <div className="joining">
                     <p>Support the modpacks creator:</p>
                     <a href="https://ko-fi.com/blueversal" target="_blank" rel="noopener noreferrer">
-                        <Image src="/logo/kofi.webp" alt="Ko-fi Logo" width={32} height={32} />
+                        <Image src="/logo/kofi.png" alt="Ko-fi Logo" width={32} height={32} />
                     </a>
                 </div>
             </div>
