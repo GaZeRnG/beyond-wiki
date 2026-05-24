@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "../../lib/supabase-browser";
 import Link from "next/link";
 import Navbar from "../components/navbar";
 
 export default function LoginPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const supabase = createClient();
     
     const [email, setEmail] = useState("");
@@ -16,6 +17,8 @@ export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+
+    const registered = searchParams.get('registered') === 'true';
 
     useEffect(() => {
         const state = rememberMe ? "1" : "0";
@@ -102,6 +105,13 @@ export default function LoginPage() {
                 <section className="login-whole">
                     <div className="login-container">
                         <h1 className="login-title">LOGIN</h1>
+
+                        {/* Success Message */}
+                        {registered && (
+                            <div className="bg-green-500/20 border border-green-500/50 text-green-300 p-2 rounded mb-4 text-sm text-center">
+                                Registration successful!
+                            </div>
+                        )}
 
                         {/* Error Message */}
                         {error && (

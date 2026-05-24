@@ -138,7 +138,7 @@ export async function POST(request: Request) {
                 id: authData.user.id,
                 user_name: trimmedUsername,
                 user_email: trimmedEmail,
-                user_pfp: '/pfp/default.png',
+                user_pfp: null,
                 oauth_provider: 'email',
                 oauth_id: null,
             })
