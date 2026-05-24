@@ -27,6 +27,21 @@ export default function LoginPage() {
         setLoading(true);
         setError("");
 
+        let loginEmail = email.trim();
+
+        if (!loginEmail.includes("@")) {
+            const { data: emailData, error: lookupError } = await supabase
+                .rpc('get_user_by_username', { username_input: loginEmail });
+
+            if (lookupError || !emailData || emailData.length === 0) {
+                setError("Username not found.");
+                setLoading(false);
+                return;
+            }
+
+            loginEmail = emailData[0].user_email;
+        }
+
         const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
