@@ -185,7 +185,7 @@
 
     /* Carousel */
     .hub-page .wiki-links {
-        @apply relative w-full h-60 mt-3 perspective-distant overflow-visible;
+        @apply relative w-full h-60 mt-3 perspective-distant;
     }
     .hub-page .wiki-links-images {
         @apply relative w-full h-50 flex justify-center items-center;
