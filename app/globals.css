@@ -106,8 +106,23 @@
     .login-page .login-title {
         @apply text-center text-[20px] font-bold mb-5;
     }
+    .login-page .login-success {
+        @apply bg-green-500/20 border border-green-500/50 text-green-300 p-2 rounded mb-4 text-sm text-center;
+    }
+    .login-page .login-error {
+        @apply bg-red-500/20 border border-red-500/50 text-red-300 p-2 rounded mb-4 text-sm text-center;
+    }
     .login-page .login-form {
         @apply flex flex-col gap-2.5;
+    }
+    .login-page .login-label-text {
+        @apply floating-label input validator bg-neutral-800 rounded-md p-2.5 w-full;
+    }
+    .login-page .login-input {
+        @apply bg-transparent border-none outline-none text-white w-full text-sm;
+    }
+    .login-page .login-eye {
+        @apply absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white;
     }
     .login-page .login-submit {
         @apply btn bg-neutral-800 border border-neutral-600 rounded-md w-[30%] p-2.5 mx-auto mt-2.5 cursor-pointer hover:bg-neutral-600;
@@ -144,8 +159,26 @@
     .register-page .register-title {
         @apply text-center text-[20px] font-bold mb-5;
     }
+    .register-page .register-error {
+        @apply bg-red-500/20 border border-red-500/50 text-red-300 p-2 rounded mb-4 text-sm text-center;
+    }
+    .register-page .register-error .register-error-list {
+        @apply list-disc list-inside;
+    }
     .register-page .register-form {
         @apply flex flex-col gap-2.5;
+    }
+    .register-page .register-label-text {
+        @apply floating-label input validator bg-neutral-800 rounded-md w-full;
+    }
+    .register-page .register-input {
+        @apply bg-transparent border-none outline-none text-white w-full text-sm;
+    }
+    .register-page .register-below-text {
+        @apply text-xs text-gray-500;
+    }
+    .register-page .register-eye {
+        @apply absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white;
     }
     .register-page .register-submit {
         @apply btn bg-neutral-800 border border-neutral-600 rounded-md w-[30%] p-2.5 mx-auto mt-2.5 cursor-pointer hover:bg-neutral-600;
@@ -166,6 +199,12 @@
     }
     .hub-page .main {
         @apply flex flex-row mx-auto max-w-[90%];
+    }
+    .hub-page .main-separator {
+        @apply mx-auto w-[90%] my-4;
+    }
+    .hub-page .carousel-title {
+        @apply m-0 text-lg font-bold;
     }
     .hub-page .left-main, .hub-page .right-main {
         @apply border rounded-[10px] p-5 backdrop-blur-[5px] w-[18%] justify-between mb-5 pt-2.5 text-center transition-all duration-500;
@@ -261,4 +300,208 @@
         z-index: 0;
         pointer-events: none;
     }
+
+/* ========== TABLET ========== */
+@media (max-width: 1023px) {
+    /* Navbar */
+    .nav .search {
+        @apply w-[40%];
+    }
+
+    /* Footer */
+    .footer {
+        @apply grid-cols-2 gap-4;
+    }
+    .footer .contribute {
+        @apply order-first;
+    }
+    .footer .official {
+        @apply col-span-2 mt-2;
+    }
+
+    /* Hub Page */
+    .hub-page .main {
+        @apply flex-col;
+    }
+    .hub-page .left-main, .hub-page .right-main {
+        @apply w-[90%] mx-auto;
+    }
+    .hub-page .center-main {
+        @apply w-[90%] order-first;
+    }
+    .hub-page .logo img {
+        @apply h-28;
+    }
+
+    /* Carousel */
+    /* .hub-page .wiki-links {
+        @apply h-48;
+    } */
+    .hub-page .wiki-links-images .mod img {
+        @apply h-24;
+    }
+    .hub-page .wiki-links-images .mod[data-pos="far-left"] {
+        transform: translateX(-200px) translateZ(-250px) rotateY(25deg) scale(0.6);
+    }
+    .hub-page .wiki-links-images .mod[data-pos="left"] {
+        transform: translateX(-100px) translateZ(-120px) rotateY(15deg) scale(0.8);
+    }
+    .hub-page .wiki-links-images .mod[data-pos="right"] {
+        transform: translateX(100px) translateZ(-120px) rotateY(-15deg) scale(0.8);
+    }
+    .hub-page .wiki-links-images .mod[data-pos="far-right"] {
+        transform: translateX(200px) translateZ(-250px) rotateY(-25deg) scale(0.6);
+    }
+}
+
+/* ========== MOBILE ========== */
+@media (max-width: 767px) {
+    /* Navbar */
+    .nav {
+        @apply px-2 py-2;
+    }
+    .nav img {
+        @apply h-6;
+    }
+    .nav .search {
+        @apply w-[50%] text-sm px-2;
+    }
+    .nav .user {
+        @apply text-[8px];
+    }
+    .nav .user p {
+        @apply hidden;
+    }
+    .nav .drop-menu {
+        @apply w-40;
+    }
+
+    /* Footer */
+    .footer {
+        @apply grid-cols-1 gap-3;
+    }
+    .footer .contribute, .footer .join {
+        @apply items-center;
+    }
+    .footer .official {
+        @apply col-span-1 flex-col gap-1;
+    }
+    .footer .cflink {
+        @apply justify-center;
+    }
+
+    /* Login */
+    .login-page .login-container {
+        @apply w-[95%] p-4;
+    }
+    .login-page .login-title {
+        @apply text-[18px];
+    }
+    .login-page .login-submit {
+        @apply w-[50%];
+    }
+    .login-page .login-google, .login-page .login-discord {
+        @apply w-[40%];
+    }
+
+    /* Register */
+    .register-page .register-container {
+        @apply w-[95%] p-4;
+    }
+    .register-page .register-title {
+        @apply text-[18px];
+    }
+    .register-page .register-submit {
+        @apply w-[50%];
+    }
+
+    /* Hub Page */
+    .hub-page .warning {
+        @apply text-[16px] w-[95%];
+    }
+    .hub-page .logo {
+        @apply my-6;
+    }
+    .hub-page .logo img {
+        @apply h-20;
+    }
+    .hub-page .left-main, .hub-page .right-main, .hub-page .center-main {
+        @apply w-[95%] p-3;
+    }
+    .hub-page .welcome {
+        @apply text-[16px];
+    }
+    .hub-page .carousel-title {
+        @apply text-base;
+    }
+
+    /* Carousel */
+    .hub-page .wiki-links {
+        @apply h-40;
+    }
+    .hub-page .wiki-links-images {
+        @apply h-26;
+    }
+    .hub-page .wiki-links-images .mod img {
+        @apply h-18;
+    }
+    .hub-page .wiki-links-buttons {
+        @apply gap-2;
+    }
+    .hub-page .wiki-links-buttons button {
+        @apply mt-4;
+    }
+    .hub-page .wiki-links-images .mod[data-pos="far-left"] {
+        transform: translateX(-120px) translateZ(-200px) rotateY(25deg) scale(0.5);
+        opacity: 0.2;
+    }
+    .hub-page .wiki-links-images .mod[data-pos="left"] {
+        transform: translateX(-60px) translateZ(-100px) rotateY(15deg) scale(0.7);
+        opacity: 0.6;
+    }
+    .hub-page .wiki-links-images .mod[data-pos="center"] {
+        transform: translateX(0) translateZ(0) rotateY(0) scale(1);
+    }
+    .hub-page .wiki-links-images .mod[data-pos="right"] {
+        transform: translateX(60px) translateZ(-100px) rotateY(-15deg) scale(0.7);
+        opacity: 0.6;
+    }
+    .hub-page .wiki-links-images .mod[data-pos="far-right"] {
+        transform: translateX(120px) translateZ(-200px) rotateY(-25deg) scale(0.5);
+        opacity: 0.2;
+    }
+}
+
+/* ========== SMALL MOBILE ========== */
+@media (max-width: 479px) {
+    /* Navbar */
+    .nav .search {
+        @apply w-[40%] text-xs;
+    }
+    .nav .nav_logo img {
+        @apply h-5;
+    }
+
+    /* Login */
+    .login-page .login-google, .login-page .login-discord {
+        @apply w-[45%] text-xs;
+    }
+    .login-page .login-google a, .login-page .login-discord a {
+        @apply gap-1;
+    }
+
+    /* Carousel */
+    .hub-page .wiki-links-images .mod[data-pos="far-left"] {
+        transform: translateX(-80px) translateZ(-150px) rotateY(25deg) scale(0.4);
+    }
+    .hub-page .wiki-links-images .mod[data-pos="left"] {
+        transform: translateX(-40px) translateZ(-80px) rotateY(15deg) scale(0.6);
+    }
+    .hub-page .wiki-links-images .mod[data-pos="right"] {
+        transform: translateX(40px) translateZ(-80px) rotateY(-15deg) scale(0.6);
+    }
+    .hub-page .wiki-links-images .mod[data-pos="far-right"] {
+        transform: translateX(80px) translateZ(-150px) rotateY(-25deg) scale(0.4);
+    }
+}
 }

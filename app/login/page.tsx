@@ -108,14 +108,14 @@ export default function LoginPage() {
 
                         {/* Success Message */}
                         {registered && (
-                            <div className="bg-green-500/20 border border-green-500/50 text-green-300 p-2 rounded mb-4 text-sm text-center">
+                            <div className="login-success">
                                 Registration successful!
                             </div>
                         )}
 
                         {/* Error Message */}
                         {error && (
-                            <div className="bg-red-500/20 border border-red-500/50 text-red-300 p-2 rounded mb-4 text-sm text-center">
+                            <div className="login-error">
                                 {error}
                             </div>
                         )}
@@ -123,18 +123,18 @@ export default function LoginPage() {
                         {/* Form */}
                         <form onSubmit={handleLogin} className="login-form">
                             {/* Username/Email */}
-                            <label className="floating-label input validator bg-neutral-800 rounded-md p-2.5 w-full">
+                            <label className="login-label-text">
                                 <UserIcon />
                                 <span>Username/Email</span>
-                                <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Username/Email" className="bg-transparent border-none outline-none text-white w-full text-sm" />
+                                <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Username/Email" className="login-input" />
                             </label>
 
                             {/* Password */}
-                            <label className="floating-label input validator bg-neutral-800 rounded-md p-2.5 w-full">
+                            <label className="login-label-text">
                                 <KeyIcon />
                                 <span>Password</span>
-                                <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} placeholder="Password" className="bg-transparent border-none outline-none text-white w-full text-sm pr-10" />
-                                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white">
+                                <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} placeholder="Password" className="login-input" />
+                                <button type="button" onClick={() => setShowPassword(!showPassword)} className="login-eye">
                                     {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                                 </button>
                             </label>

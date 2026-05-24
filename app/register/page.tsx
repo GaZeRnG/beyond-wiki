@@ -94,8 +94,8 @@ export default function RegisterPage() {
 
                         {/* Error message */}
                         {errors.length > 0 && (
-                            <div className="bg-red-500/20 border border-red-500/50 text-red-300 p-2 rounded mb-4 text-sm text-center">
-                                <ul className="list-disc list-inside">
+                            <div className="register-error">
+                                <ul className="register-error-list">
                                     {errors.map((err, i) => (
                                         <li key={i}>{err}</li>
                                     ))}
@@ -106,42 +106,42 @@ export default function RegisterPage() {
                         {/* Form */}
                         <form onSubmit={handleSubmit} className="register-form">
                             {/* Username */}
-                            <label className="floating-label input validator bg-neutral-800 rounded-md p-2.5 w-full">
+                            <label className="register-label-text">
                                 <UserIcon />
                                 <span>Username</span>
-                                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required placeholder="Username" minLength={3} maxLength={30} pattern="[A-Za-z][A-Za-z0-9\-]*" title="Must start with a letter. Only letters, numbers, or dash" className="bg-transparent border-none outline-none text-white w-full text-sm" />
+                                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required placeholder="Username" minLength={3} maxLength={30} pattern="[A-Za-z][A-Za-z0-9\-]*" title="Must start with a letter. Only letters, numbers, or dash" className="register-input" />
                             </label>
-                            <p className="text-xs text-gray-500">Must be 3 to 30 characters, containing only letters, numbers or dash</p>
+                            <p className="register-below-text">Must be 3 to 30 characters, containing only letters, numbers or dash</p>
 
                             {/* Email */}
-                            <label className="floating-label input validator bg-neutral-800 rounded-md p-2.5 w-full">
+                            <label className="register-label-text">
                                 <EmailIcon />
                                 <span>Email</span>
-                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Email" className="bg-transparent border-none outline-none text-white w-full text-sm" />
+                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Email" className="register-input" />
                             </label>
-                            <p className="text-xs text-gray-500">Must be a valid email address</p>
+                            <p className="register-below-text">Must be a valid email address</p>
 
                             {/* Password */}
-                            <label className="floating-label input validator bg-neutral-800 rounded-md p-2.5 w-full">
+                            <label className="register-label-text">
                                 <KeyIcon />
                                 <span>Password</span>
-                                <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must be more than 8 characters, including number, lowercase letter, uppercase letter" placeholder="Password" className="bg-transparent border-none outline-none text-white w-full text-sm pr-10" />
-                                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white">
+                                <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must be more than 8 characters, including number, lowercase letter, uppercase letter" placeholder="Password" className="register-input" />
+                                <button type="button" onClick={() => setShowPassword(!showPassword)} className="register-eye">
                                     {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                                 </button>
                             </label>
-                            <p className="text-xs text-gray-500">Must be more than 8 characters, including number, lowercase letter, uppercase letter</p>
+                            <p className="register-below-text">Must be more than 8 characters, including number, lowercase letter, uppercase letter</p>
 
                             {/* Confirm Password */}
-                            <label className="floating-label input validator bg-neutral-800 rounded-md p-2.5 w-full">
+                            <label className="register-label-text">
                                 <KeyIcon />
                                 <span>Confirm Password</span>
-                                <input type={showConfirmPassword ? "text" : "password"} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required minLength={8} placeholder="Confirm Password" className="bg-transparent border-none outline-none text-white w-full text-sm pr-10" />
-                                <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white">
+                                <input type={showConfirmPassword ? "text" : "password"} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required minLength={8} placeholder="Confirm Password" className="register-input" />
+                                <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="register-eye">
                                     {showConfirmPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                                 </button>
                             </label>
-                            <p className="text-xs text-gray-500">Must match the password</p>
+                            <p className="register-below-text">Must match the password</p>
 
                             {/* Submit */}
                             <button type="submit" disabled={loading} className="register-submit">

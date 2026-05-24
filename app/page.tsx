@@ -114,7 +114,7 @@ export default function Home() {
             <section className="main">
                 <section className="left-main">
                     <b>Upcoming Feature:</b>
-                    <hr className="mx-auto w-[90%] my-4" />
+                    <hr className="main-separator" />
                     tbh dont know what to add here. Suggest it in Discord
                 </section>
 
@@ -123,9 +123,9 @@ export default function Home() {
                     <p>A wiki for all of Beyond Packs.</p>
                     <p>Select a pack below to get started.</p>
 
-                    <hr className="mx-auto w-[90%] my-4" />
+                    <hr className="main-separator" />
 
-                    <h1 className="m-0 text-lg font-bold">Modpacks</h1>
+                    <h1 className="carousel-title">Modpacks</h1>
                     <div className="wiki-links" ref={carouselRef}>
                         <div className="wiki-links-images">
                             {modpacks.map((mod, i) => (
@@ -143,7 +143,7 @@ export default function Home() {
 
                 <section className="right-main">
                     <b>Upcoming Feature:</b>
-                    <hr className="mx-auto w-[90%] my-4" />
+                    <hr className="main-separator" />
                     Top Contributors???
                 </section>
             </section>

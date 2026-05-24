@@ -13,7 +13,7 @@ const curseforgeLinks = [
 
 export default function Footer() {
     return (
-        <footer className="footer footer-center">
+        <footer className="footer footer-horizontal footer-center">
             <p className="official">Official CurseForge Links:
                 <span className="cflink">
                     {curseforgeLinks.map((mod, i) => (
