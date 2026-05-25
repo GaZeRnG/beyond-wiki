@@ -97,7 +97,7 @@ export default function Home() {
         <main className="hub-page">
             <Navbar page="hub" />
 
-            <div className='h-20'></div>
+            <div className='h-20' />
 
             {/* Warning */}
             <section className="warning">
