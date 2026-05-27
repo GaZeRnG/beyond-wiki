@@ -3,15 +3,15 @@
 
 @layer base {   
     body {
-        @apply font-sans text-white text-[15px] m-0;
+        @apply font-sans text-white text-[15px] m-0 h-full flex flex-col min-h-screen;
     }
     .login-page, .register-page {
         @apply pb-0 m-0;
     }
     .hub-page, .login-page, .register-page {
-        @apply bg-repeat bg-blend-multiply bg-zinc-700 bg-[url('/background/background.png')] bg-size-[50px] select-none;
+        @apply bg-repeat bg-blend-multiply bg-zinc-700 bg-[url('/background/background.png')] bg-size-[50px] min-h-screen select-none;
     }
-    .bd-page .bd-bg, .view-tip-page .view-tip-bg, .add-tip-page .add-tip-bg {
+    .bd-page .bd-bg, .bd-view-tip-page .view-tip-bg, .bd-add-tip-page .add-tip-bg {
         @apply fixed inset-0 -z-10 bg-[url('/background/bd_background.png')] bg-size-[4318px_100%] bg-repeat-x bg-position-[0%_0%];
         filter: blur(3px);
         animation: bgAnimation 100s linear infinite;
@@ -317,7 +317,7 @@
         @apply text-[20px] text-[#fdc717e5] font-bold bg-[#f59f0b1f] border border-[#ffa200] w-[90%] mx-auto align-middle rounded-[10px] text-center select-none;
     }
     .bd-page .logo {
-        @apply flex justify-center py-5 my-10 select-none;
+        @apply flex justify-center my-10 select-none;
     }
     .bd-page .logo img {
         @apply w-auto h-37.5 drop-shadow-[0_0_10px_rgba(143,143,143,0.5)];
@@ -390,6 +390,78 @@
     }
     .bd-page .tips li {
         @apply border-l border-[#a5a5a5] pl-3 pb-1;
+    }
+}
+
+/* BD Add Tip Page */
+@layer components {
+    .bd-add-tip-page .add-tip-errors {
+        @apply bg-red-500/20 border border-red-500/50 text-red-300 p-3 rounded mx-auto max-w-2xl mb-4;
+    }
+    .bd-add-tip-page .add-tip-errors-list {
+        @apply list-disc list-inside text-sm;
+    }
+    .bd-add-tip-page .add-tip-form {
+        @apply mx-auto mb-[30px] p-2.5 max-w-[75%] box-border text-white;
+    }
+    .bd-add-tip-page .add-tip-form .top-bar {
+        @apply flex justify-between;
+    }
+    .bd-add-tip-page .add-tip-form .input-value {
+        @apply flex flex-col justify-center mb-5;
+    }
+    .bd-add-tip-page .add-tip-form .input-title {
+        @apply flex justify-center text-[20px] font-bold mb-0;
+    }
+    .bd-add-tip-page .add-tip-form :is(input[type="text"], textarea) {
+        @apply bg-[rgba(120,120,120,0.5)] mx-auto border border-gray-300 p-2.5 rounded-md;
+    }
+    .bd-add-tip-page .add-tip-form .author-input {
+        @apply inline-block text-center w-auto max-w-full;
+    }
+    .bd-add-tip-page .add-tip-form .title-input {
+        @apply inline-block text-center w-auto max-w-full;
+    }
+    .bd-add-tip-page .add-tip-form .shadow-span {
+        @apply invisible absolute whitespace-nowrap px-2.5;
+        font-size: 1rem;
+    }
+    .bd-add-tip-page .add-tip-form .content-input {
+        @apply w-full;
+    }
+    .bd-add-tip-page .add-tip-form .submit-button {
+        @apply flex flex-col items-center;
+    }
+    .bd-add-tip-page .add-tip-form .submit {
+        @apply bg-[rgb(54,53,53)] font-bold py-2.5 px-5 mb-2.5 rounded-[10px] cursor-pointer hover:bg-[rgb(67,67,67)];
+    }
+    .bd-add-tip-page .add-tip-form .back {
+        @apply text-white no-underline hover:underline;
+    }
+}
+
+/* BD View Tip Page */
+@layer components {
+    .view-tip-page .tip-details {
+        @apply w-[75%] mx-auto mb-2.5 pb-2.5 text-center align-middle;
+    }
+    .view-tip-page .tip-details .tip-title {
+        @apply w-full mt-5 mb-2.5 px-5 flex justify-between text-[40px];
+    }
+    .view-tip-page .tip-details .tip-title .tip-who {
+        @apply mb-2.5 text-[18px];
+    }
+    .view-tip-page .tip-details .tip-content {
+        @apply mx-auto bg-[rgba(117,117,117,0.5)] shadow-[0_0_10px_rgb(163,163,163)] p-2.5 rounded-[10px];
+    }
+    .view-tip-page .tip-details .tip-more {
+        @apply flex justify-between mt-5 w-full;
+    }
+    .view-tip-page .tip-details .tip-more .back {
+        @apply text-white no-underline hover:underline mb-2.5 flex mx-auto w-fit;
+    }
+    .view-tip-page .tip-details .tip-more .add {
+        @apply text-white no-underline hover:underline flex mx-auto w-fit;
     }
 }
 

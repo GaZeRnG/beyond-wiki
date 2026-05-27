@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@lib/supabase-browser";
 import Link from "next/link";
-import Navbar from "../components/navbar";
+import Navbar from "@components/navbar";
 
 export default function LoginPage() {
     const router = useRouter();

@@ -12,9 +12,15 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" className="h-full">
+            <head>
+                <meta charSet="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            </head>
             <body>
-                {children}
+                <div className="flex-1">
+                    {children}
+                </div>
                 <FooterWrapper />
             </body>
         </html>

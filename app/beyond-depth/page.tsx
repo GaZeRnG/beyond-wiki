@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "../components/navbar";
+import Navbar from "@components/navbar";
 
 interface Tip {
     tip_id: number;
     tip_title: string;
+    author: string | null;
+    created_at: string;
 }
 
 interface Boss {
