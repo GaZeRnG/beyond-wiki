@@ -39,8 +39,8 @@ export async function POST(request: Request) {
 
         const { tip_title, tip_content, author, pack } = await request.json()
 
-        if (!tip_title?.trim() || !tip_content?.trim()) {
-            return NextResponse.json({ error: 'Title, content are required' }, { status: 400 })
+        if (!tip_title?.trim() || !tip_content?.trim() || !pack?.trim()) {
+            return NextResponse.json({ error: 'Title, content, and pack are required' }, { status: 400 })
         }
 
         const serviceClient = createServiceClient()

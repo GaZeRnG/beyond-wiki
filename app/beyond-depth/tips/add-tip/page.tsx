@@ -65,7 +65,7 @@ export default function AddTipPage() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                tip_tile: trimmedTitle,
+                tip_title: trimmedTitle,
                 tip_content: trimmedContent,
                 author: trimmedAuthor || undefined,
                 pack: "beyond-depth",
