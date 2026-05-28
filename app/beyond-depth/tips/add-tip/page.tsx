@@ -14,6 +14,7 @@ export default function AddTipPage() {
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState<string[]>([]);
 
+    const formRef = useRef<HTMLFormElement>(null);
     const titleRef = useRef<HTMLInputElement>(null);
     const authorRef = useRef<HTMLInputElement>(null);
     const titleShadowRef = useRef<HTMLInputElement>(null);
@@ -45,6 +46,10 @@ export default function AddTipPage() {
             return () => input.removeEventListener("input", handler);
         });
     }, []);
+
+    const handleExternalSubmit = () => {
+        formRef.current?.requestSubmit();
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -102,34 +107,48 @@ export default function AddTipPage() {
                 </div>
             )}
 
+            <section className="action-bar">
+                <Link href="/beyond-depth" className="back">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-left-icon lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                    Back to Home
+                </Link>
+                <button type="submit" onClick={handleExternalSubmit} disabled={loading} className="submit">
+                    {loading ? "Submitting..." : "Submit Tip"}
+                </button>
+            </section>
+
             {/* Form */}
-            <form onSubmit={handleSubmit} className="add-tip-form">
+            <form ref={formRef} onSubmit={handleSubmit} className="add-tip-form">
                 <section className="top-bar">
                     {/* Title */}
                     <section className="input-value">
-                        <input ref={titleRef} id="title" type="text" placeholder="Enter your Title" maxLength={300} required value={title} onChange={(e) => setTitle(e.target.value)} className="title-input"/>
+                        <label htmlFor="title" className="input-label">Tip Title</label>
+                        <input ref={titleRef} id="title" type="text" placeholder="e.g., Best Early Game Strategy" maxLength={300} required value={title} onChange={(e) => setTitle(e.target.value)} className="title-input"/>
                         <span ref={titleShadowRef} id="title-shadow" ariad-hidden="true" className="shadow-span" />
                     </section>
 
                     {/* Author */}
                     <section className="input-value">
-                        <input ref={authorRef} id="author" type="text" placeholder="Enter your Username (Optional)" maxLength={300} value={author} onChange={(e) => setAuthor(e.target.value)} className="author-input" />
+                        <label htmlFor="author" className="input-label">Author (Optional)</label>
+                        <input ref={authorRef} id="author" type="text" placeholder="Your username" maxLength={300} value={author} onChange={(e) => setAuthor(e.target.value)} className="author-input" />
                         <span ref={authorShadowRef} id="author-shadow" ariad-hidden="true" className="shadow-span" />
                     </section>
                 </section>
 
                 {/* Content */}
                 <section className="input-value">
-                    <textarea id="content" placeholder="Enter your Tip" rows={5} required value={content} onChange={(e) => setContent(e.target.value)} className="content-input" />
+                    <label htmlFor="content" className="input-label">Your Tip</label>
+                    <textarea id="content" placeholder="Share your knowledge with the community..." rows={6} required value={content} onChange={(e) => setContent(e.target.value)} className="content-input" />
+                    <span className="char-counter">{content.length} characters</span>
                 </section>
 
                 {/* Submit */}
-                <section className="submit-button">
+                {/* <section className="submit-button">
                     <button type="submit" disabled={loading} className="submit">
                         {loading ? "Submitting..." : "Submit Tip"}
                     </button>
                     <Link href="/beyond-depth" className="back">Back to Home</Link>
-                </section>
+                </section> */}
             </form>
         </main>
     )

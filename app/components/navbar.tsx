@@ -99,7 +99,7 @@ export default function Navbar({page = ""}: {page?: string}) {
                         </>
                     ) : (
                         <>
-                            <p>Guest</p>
+                            <p>Login</p>
                             <div className="user-icon" id="user-icon">
                                 <DefaultUserIcon />
                             </div>

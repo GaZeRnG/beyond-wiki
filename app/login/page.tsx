@@ -149,6 +149,8 @@ export default function LoginPage() {
                                 {loading ? "Logging In..." : "Login"}
                             </button>
 
+                            <div className="divider m-0">or</div>
+
                             {/* OAuth */}
                             <div className="login-others">
                                 {/* Google */}

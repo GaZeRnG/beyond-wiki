@@ -103,7 +103,7 @@
 /* Login */
 @layer components {
     .login-page .login-whole {
-        @apply h-screen grid grid-cols-1 place-items-center;
+        @apply h-screen grid place-items-center;
     }
     .login-page .login-container {
         @apply max-w-125 w-[85%] bg-[#a0a0a01f] border border-[#868686] shadow-[0_0_5px_rgb(143,143,143)] rounded-[10px] p-5 box-border backdrop-blur-[5px] select-none;
@@ -136,7 +136,7 @@
         @apply items-center gap-2.5 mt-2.5 w-fit;
     }
     .login-page .login-others {
-        @apply flex flex-row justify-center items-center gap-5 mt-2.5 mb-2.5;
+        @apply flex flex-row justify-center items-center gap-5 mb-2.5;
     }
     .login-page .login-google {
         @apply btn bg-white rounded-md w-[25%] p-1 text-center text-black no-underline hover:bg-white/50;
@@ -164,7 +164,10 @@
         @apply max-w-125 w-[85%] bg-[#a0a0a01f] border border-[#868686] shadow-[0_0_5px_rgb(143,143,143)] rounded-[10px] p-5 box-border backdrop-blur-[5px] select-none;
     }
     .register-page .register-title {
-        @apply text-center text-[20px] font-bold mb-5;
+        @apply text-center text-[20px] font-bold;
+    }
+    .register-page .register-subtitle {
+        @apply text-center text-gray-300 mb-5;
     }
     .register-page .register-error {
         @apply bg-red-500/20 border border-red-500/50 text-red-300 p-2 rounded mb-4 text-sm text-center;
@@ -180,9 +183,6 @@
     }
     .register-page .register-input {
         @apply bg-transparent border-none outline-none text-white w-full text-sm;
-    }
-    .register-page .register-below-text {
-        @apply text-xs text-gray-500;
     }
     .register-page .register-eye {
         @apply absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white;
@@ -395,14 +395,16 @@
 
 /* BD Add Tip Page */
 @layer components {
+    /* Errors */
     .bd-add-tip-page .add-tip-errors {
         @apply bg-red-500/20 border border-red-500/50 text-red-300 p-3 rounded mx-auto max-w-2xl mb-4;
     }
     .bd-add-tip-page .add-tip-errors-list {
         @apply list-disc list-inside text-sm;
     }
+    /* Form */
     .bd-add-tip-page .add-tip-form {
-        @apply mx-auto mb-[30px] p-2.5 max-w-[75%] box-border text-white;
+        @apply mx-auto mb-8 p-5 max-w-3xl w-[90%] bg-[#a0a0a01f] border border-[#868686] shadow-lg rounded-[10px] backdrop-blur-[20px];
     }
     .bd-add-tip-page .add-tip-form .top-bar {
         @apply flex justify-between;
@@ -429,14 +431,19 @@
     .bd-add-tip-page .add-tip-form .content-input {
         @apply w-full;
     }
-    .bd-add-tip-page .add-tip-form .submit-button {
+
+    /* Action Bar */
+    .bd-add-tip-page .action-bar {
+        @apply mx-auto max-w-3xl w-[90%] flex justify-between items-center mb-5;
+    }
+    .bd-add-tip-page .action-bar .submit-button {
         @apply flex flex-col items-center;
     }
-    .bd-add-tip-page .add-tip-form .submit {
-        @apply bg-[rgb(54,53,53)] font-bold py-2.5 px-5 mb-2.5 rounded-[10px] cursor-pointer hover:bg-[rgb(67,67,67)];
+    .bd-add-tip-page .action-bar .submit {
+        @apply bg-[rgb(54,53,53)] hover:bg-[rgb(67,67,67)] font-bold py-2.5 px-5 rounded-[10px] cursor-pointer;
     }
-    .bd-add-tip-page .add-tip-form .back {
-        @apply text-white no-underline hover:underline;
+    .bd-add-tip-page .action-bar .back {
+        @apply flex justify-center text-white no-underline hover:underline cursor-pointer;
     }
 }
 

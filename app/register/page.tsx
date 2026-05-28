@@ -91,6 +91,7 @@ export default function RegisterPage() {
                 <section className="register-whole">
                     <div className="register-container">
                         <h1 className="register-title">REGISTER</h1>
+                        <p className="register-subtitle">Create an account get started, and start contributing to the wiki</p>
 
                         {/* Error message */}
                         {errors.length > 0 && (
@@ -111,7 +112,6 @@ export default function RegisterPage() {
                                 <span>Username</span>
                                 <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required placeholder="Username" minLength={3} maxLength={30} pattern="[A-Za-z][A-Za-z0-9\-]*" title="Must start with a letter. Only letters, numbers, or dash" className="register-input" />
                             </label>
-                            <p className="register-below-text">Must be 3 to 30 characters, containing only letters, numbers or dash</p>
 
                             {/* Email */}
                             <label className="register-label-text">
@@ -119,7 +119,6 @@ export default function RegisterPage() {
                                 <span>Email</span>
                                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Email" className="register-input" />
                             </label>
-                            <p className="register-below-text">Must be a valid email address</p>
 
                             {/* Password */}
                             <label className="register-label-text">
@@ -130,7 +129,6 @@ export default function RegisterPage() {
                                     {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                                 </button>
                             </label>
-                            <p className="register-below-text">Must be more than 8 characters, including number, lowercase letter, uppercase letter</p>
 
                             {/* Confirm Password */}
                             <label className="register-label-text">
@@ -141,7 +139,6 @@ export default function RegisterPage() {
                                     {showConfirmPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                                 </button>
                             </label>
-                            <p className="register-below-text">Must match the password</p>
 
                             {/* Submit */}
                             <button type="submit" disabled={loading} className="register-submit">
