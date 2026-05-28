@@ -15,7 +15,7 @@ export async function GET(request: Request) {
     
     const { data: tips, error } = await serviceClient
         .from("tips")
-        .select("tips_id, tip_title, author, created_at")
+        .select("tip_id, tip_title, author, created_at")
         .eq("pack", pack)
         .order("created_at", { ascending: false });
     
