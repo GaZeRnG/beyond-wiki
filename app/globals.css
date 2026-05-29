@@ -388,6 +388,9 @@
     .bd-page .tips .sector-title .open-add-tip {
         @apply text-[15px] flex cursor-pointer hover:text-[#a5a5a5] transition-colors;
     }
+    .bd-page .tips .tips-list {
+        @apply grid grid-cols-5 gap-2;
+    }
     .bd-page .tips li {
         @apply border-l border-[#a5a5a5] pl-3 pb-1;
     }
@@ -402,9 +405,16 @@
     .bd-add-tip-page .add-tip-errors-list {
         @apply list-disc list-inside text-sm;
     }
+    /* Page Logo */
+    .bd-add-tip-page .page-logo {
+        @apply flex justify-center my-3 select-none;
+    }
+    .bd-add-tip-page .page-logo img {
+        @apply w-auto h-20 drop-shadow-[0_0_10px_rgba(143,143,143,0.5)];
+    }
     /* Form */
     .bd-add-tip-page .add-tip-form {
-        @apply mx-auto mb-8 p-5 max-w-3xl w-[90%] bg-[#a0a0a01f] border border-[#868686] shadow-lg rounded-[10px] backdrop-blur-[20px];
+        @apply mx-auto mb-8 p-5 max-w-3xl bg-[#a0a0a01f] border border-[#868686] shadow-lg rounded-[10px] backdrop-blur-[20px];
     }
     .bd-add-tip-page .add-tip-form .top-bar {
         @apply flex justify-between;
@@ -415,13 +425,13 @@
     .bd-add-tip-page .add-tip-form .input-title {
         @apply flex justify-center text-[20px] font-bold mb-0;
     }
+    .bd-add-tip-page .add-tip-form .anonymous-label {
+        @apply flex items-center gap-2 cursor-pointer select-none;
+    }
     .bd-add-tip-page .add-tip-form :is(input[type="text"], textarea) {
         @apply bg-[rgba(120,120,120,0.5)] mx-auto border border-gray-300 p-2.5 rounded-md;
     }
-    .bd-add-tip-page .add-tip-form .author-input {
-        @apply inline-block text-center w-auto max-w-full;
-    }
-    .bd-add-tip-page .add-tip-form .title-input {
+    .bd-add-tip-page .add-tip-form .author-input, .bd-add-tip-page .add-tip-form .title-input {
         @apply inline-block text-center w-auto max-w-full;
     }
     .bd-add-tip-page .add-tip-form .shadow-span {
@@ -545,6 +555,29 @@
     }
     .bd-page .sector-title {
         @apply text-[18px];
+    }
+
+    /* BD Add Tip Page */
+    .bd-add-tip-page .add-tip-errors {
+        @apply max-w-2xl;
+    }
+    .bd-add-tip-page .page-logo img {
+        @apply h-16;
+    }
+    .bd-add-tip-page .add-tip-form {
+        @apply max-w-2xl p-4;
+    }
+    .bd-add-tip-page .add-tip-form .top-bar {
+        @apply gap-3;
+    }
+    .bd-add-tip-page .add-tip-form .input-title {
+        @apply text-[18px];
+    }
+    .bd-add-tip-page .add-tip-form .content-input {
+        @apply min-h-[130px];
+    }
+    .bd-add-tip-page .action-bar {
+        @apply max-w-2xl;
     }
 }
 
@@ -704,7 +737,48 @@
     }
     .bd-page .tips .sector-title .open-add-tip {
         @apply text-[13px];
-}
+    }
+
+    /* BD Add Tip Page */
+    .bd-add-tip-page .add-tip-errors {
+        @apply w-[95%] text-sm p-2.5;
+    }
+    .bd-add-tip-page .page-logo {
+        @apply my-2;
+    }
+    .bd-add-tip-page .page-logo img {
+        @apply h-14;
+    }
+    .bd-add-tip-page .add-tip-form {
+        @apply w-[95%] p-4 mb-6;
+    }
+    .bd-add-tip-page .add-tip-form .top-bar {
+        @apply flex-col gap-0 mb-5;
+    }
+    .bd-add-tip-page .add-tip-form .input-value {
+        @apply w-full mb-4;
+    }
+    .bd-add-tip-page .add-tip-form .input-title {
+        @apply text-[16px];
+    }
+    .bd-add-tip-page .add-tip-form :is(input[type="text"], textarea) {
+        @apply p-2 text-sm;
+    }
+    .bd-add-tip-page .add-tip-form .title-input {
+        @apply w-full;
+    }
+    .bd-add-tip-page .add-tip-form .content-input {
+        @apply min-h-30;
+    }
+    .bd-add-tip-page .action-bar {
+        @apply w-[95%] mb-4;
+    }
+    .bd-add-tip-page .action-bar .submit {
+        @apply py-2 px-4 text-sm;
+    }
+    .bd-add-tip-page .action-bar .back {
+        @apply text-sm;
+    }
 }
 
 /* ========== SMALL MOBILE ========== */
@@ -751,5 +825,34 @@
     }
     .bd-page .categories li, .bd-page .bosses li, .bd-page .tips li {
         @apply text-sm;
+    }
+
+    /* BD Add Tip Page */
+    .bd-add-tip-page .add-tip-errors {
+        @apply text-xs p-2;
+    }
+    .bd-add-tip-page .page-logo img {
+        @apply h-12;
+    }
+    .bd-add-tip-page .add-tip-form {
+        @apply w-full rounded-none border-x-0 border-t-0 mb-4;
+    }
+    .bd-add-tip-page .add-tip-form .input-title {
+        @apply text-[15px];
+    }
+    .bd-add-tip-page .add-tip-form :is(input[type="text"], textarea) {
+        @apply text-xs p-1.5;
+    }
+    .bd-add-tip-page .action-bar {
+        @apply w-full px-4;
+    }
+    .bd-add-tip-page .action-bar .submit {
+        @apply py-1.5 px-3 text-xs rounded-lg;
+    }
+    .bd-add-tip-page .action-bar .back {
+        @apply text-xs gap-1;
+    }
+    .bd-add-tip-page .action-bar .back::before {
+        @apply text-base;
     }
 }

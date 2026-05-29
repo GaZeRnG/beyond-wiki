@@ -37,7 +37,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Log in to add a tip' }, { status: 401 })
         }
 
-        const { tip_title, tip_content, author, pack } = await request.json()
+        const { tip_title, tip_content, anonymous, pack } = await request.json()
 
         if (!tip_title?.trim() || !tip_content?.trim() || !pack?.trim()) {
             return NextResponse.json({ error: 'Title, content, and pack are required' }, { status: 400 })
@@ -45,15 +45,15 @@ export async function POST(request: Request) {
 
         const serviceClient = createServiceClient()
 
-        // Use provided author name, fallback to user's profile name or email prefix
-        let finalAuthor = author?.trim()
-        if (!finalAuthor) {
+        // Anonymous or nah
+        let author = 'Anonymous'
+        if (!anonymous) {
             const { data: userData } = await serviceClient
                 .from('users')
                 .select('user_name')
                 .eq('id', user.id)
                 .single()
-            finalAuthor = userData?.user_name || user.email?.split('@')[0] || 'Anonymous'
+            author = userData?.user_name || user.email?.split('@')[0] || 'Anonymous'
         }
 
         const { data: tip, error } = await serviceClient
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
             .insert({
                 tip_title: tip_title.trim(),
                 tip_content: tip_content.trim(),
-                author: finalAuthor,
+                author,
                 pack: pack.trim(),
             })
             .select()

@@ -240,7 +240,7 @@ export default function BeyondDepthPage() {
                 {tipsLoading ? (
                     <ul><li>Loading tips...</li></ul>
                 ) : tips.length > 0 ? (
-                    <ul>
+                    <ul className="tips-list">
                         {tips.map((tip) => (
                             <li key={tip.tip_id}>
                                 <Link href={`/beyond-depth/tips/view-tip?id=${tip.tip_id}`}>
