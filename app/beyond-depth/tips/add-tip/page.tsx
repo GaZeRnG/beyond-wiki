@@ -76,7 +76,8 @@ export default function AddTipPage() {
             return;
         }
 
-        router.push(`/beyond-depth/tips/view-tip?id=${data.tip.tip_id}`);
+        sessionStorage.setItem("tipAdded", "true");
+        router.push(`/beyond-depth`);
     };
 
     return (

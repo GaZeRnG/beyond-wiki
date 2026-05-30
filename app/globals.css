@@ -378,6 +378,7 @@
     .bd-page .bosses .early .drop-content {
         @apply grid grid-cols-1;
     }
+
     /* Tips */
     .bd-page .tips {
         @apply max-w-[90%] mx-auto bg-[#a0a0a01f] border border-[#868686] shadow-lg rounded-[10px] p-5 mb-5 box-border backdrop-blur-[20px];
@@ -393,6 +394,32 @@
     }
     .bd-page .tips li {
         @apply border-l border-[#a5a5a5] pl-3 pb-1;
+    }
+
+    /* Tip Modal */
+    .bd-page .tips .tip-button {
+        @apply cursor-pointer hover:text-[#a5a5a5] transition-colors;
+    }
+    .bd-page .tip-modal {
+        @apply fixed inset-0 z-50 flex items-center justify-center backdrop-blur-[1px];
+    }
+    .bd-page .tip-modal-content {
+        @apply bg-[#434343] border border-[#868686] shadow-lg rounded-[10px] p-5 max-w-2xl w-full;
+    }
+    .bd-page .tip-top {
+        @apply flex justify-between;
+    }
+    .bd-page .tip-title {
+        @apply text-[20px] font-bold text-white;
+    }
+    .bd-page .tip-close {
+        @apply  hover:text-[#a5a5a5] transition-colors cursor-pointer;
+    }
+    .bd-page .tip-content {
+        @apply text-gray-300 whitespace-pre-wrap leading-relaxed;
+    }
+    .bd-page .tip-bottom {
+        @apply flex justify-between items-center text-sm text-gray-500;
     }
 }
 
@@ -454,31 +481,6 @@
     }
     .bd-add-tip-page .action-bar .back {
         @apply flex justify-center text-white no-underline hover:underline cursor-pointer;
-    }
-}
-
-/* BD View Tip Page */
-@layer components {
-    .view-tip-page .tip-details {
-        @apply w-[75%] mx-auto mb-2.5 pb-2.5 text-center align-middle;
-    }
-    .view-tip-page .tip-details .tip-title {
-        @apply w-full mt-5 mb-2.5 px-5 flex justify-between text-[40px];
-    }
-    .view-tip-page .tip-details .tip-title .tip-who {
-        @apply mb-2.5 text-[18px];
-    }
-    .view-tip-page .tip-details .tip-content {
-        @apply mx-auto bg-[rgba(117,117,117,0.5)] shadow-[0_0_10px_rgb(163,163,163)] p-2.5 rounded-[10px];
-    }
-    .view-tip-page .tip-details .tip-more {
-        @apply flex justify-between mt-5 w-full;
-    }
-    .view-tip-page .tip-details .tip-more .back {
-        @apply text-white no-underline hover:underline mb-2.5 flex mx-auto w-fit;
-    }
-    .view-tip-page .tip-details .tip-more .add {
-        @apply text-white no-underline hover:underline flex mx-auto w-fit;
     }
 }
 

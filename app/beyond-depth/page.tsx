@@ -8,6 +8,7 @@ import Navbar from "@components/navbar";
 interface Tip {
     tip_id: number;
     tip_title: string;
+    tip_content: string;
     author: string | null;
     created_at: string;
 }
@@ -126,9 +127,62 @@ function BossSection({title, bosses}: {title: string; bosses: Boss[]}) {
     );
 }
 
+function TipModal({tip, onClose}: {tip: Tip; onClose: () => void}) {
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === "Escape") onClose();
+        };
+
+        document.addEventListener("keydown", handleEsc);
+        document.body.style.overflow = "hidden";
+
+        return () => {
+            document.removeEventListener("keydown", handleEsc);
+            document.body.style.overflow = "";
+        }
+    }, [onClose]);
+
+    return (
+        <div className="tip-modal" onClick={onClose}>
+            <div className="tip-modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className="tip-top">
+                    <h2 className="tip-title">{tip.tip_title}</h2>
+                    <button onClick={onClose}className="tip-close">
+                        <CloseIcon />
+                    </button>
+                </div>
+
+                <div className="divider m-0" />
+                
+                <div className="tip-content">
+                    {tip.tip_content}
+                </div>
+
+                <div className="divider m-0" />
+                
+                <div className="tip-bottom">
+                    <span>By: {tip.author || "Anonymous"}</span>
+                    <span>{new Date(tip.created_at).toLocaleDateString()}</span>
+                </div>
+            </div>
+        </div>
+    )
+}
+
 export default function BeyondDepthPage() {
     const [tips, setTips] = useState<Tip[]>([]);
     const [tipsLoading, setTipsLoading] = useState(true);
+    const [selectedTip, setSelectedTip] = useState<Tip | null>(null);
+    const [showAddedToast, setShowAddedToast] = useState(false);
+
+    useEffect(() => {
+        if (sessionStorage.getItem("tipAdded") === "true") {
+            setShowAddedToast(true);
+            sessionStorage.removeItem("tipAdded");
+            const timer = setTimeout(() => setShowAddedToast(false), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, []);
 
     useEffect(() => {
         fetch("/api/tips?pack=beyond-depth")
@@ -147,6 +201,13 @@ export default function BeyondDepthPage() {
             <Navbar />
 
             <div className="h-20" />
+
+            {/* Toast */}
+            {showAddedToast && (
+                <div className="toast">
+                    Tip added successfully!
+                </div>
+            )}
 
             {/* Warning */}
             <section className="warning">
@@ -243,9 +304,9 @@ export default function BeyondDepthPage() {
                     <ul className="tips-list">
                         {tips.map((tip) => (
                             <li key={tip.tip_id}>
-                                <Link href={`/beyond-depth/tips/view-tip?id=${tip.tip_id}`}>
-                                    Tip #{tip.tip_id} - {tip.tip_title}
-                                </Link>
+                                <button onClick={() => setSelectedTip(tip)} className="tip-button">
+                                    Tip #{tip.tip_id}: {tip.tip_title}
+                                </button>
                             </li>
                         ))}
                     </ul>
@@ -253,6 +314,14 @@ export default function BeyondDepthPage() {
                     <ul><li>No tips available.</li></ul>
                 )}
             </section>
+
+            {/* Modal */}
+            {selectedTip && (
+                <TipModal 
+                    tip={selectedTip} 
+                    onClose={() => setSelectedTip(null)} 
+                />
+            )}
         </main>
     )
 }
@@ -262,6 +331,15 @@ function PlusIcon() {
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M5 12h14"/>
             <path d="M12 5v14"/>
+        </svg>
+    );
+}
+
+function CloseIcon() {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M18 6 6 18"/>
+            <path d="m6 6 12 12"/>
         </svg>
     );
 }
