@@ -72,6 +72,13 @@
     }
 }
 
+/* Toast */
+@layer components {
+    .add-tip-toast {
+        @apply toast toast-top toast-end z-999 bg-[#01a02c] animate-[fade-in_1s_ease-in-out] rounded-[10px] p-2.5;
+    }
+}
+
 /* Footer */
 @layer components {
     .footer {
@@ -559,6 +566,17 @@
         @apply text-[18px];
     }
 
+    /* BD Tip Modal */
+    .bd-page .tip-modal-content {
+        @apply max-w-xl mx-4 p-4;
+    }
+    .bd-page .tip-title {
+        @apply text-[18px];
+    }
+    .bd-page .tip-content {
+        @apply text-sm;
+    }
+
     /* BD Add Tip Page */
     .bd-add-tip-page .add-tip-errors {
         @apply max-w-2xl;
@@ -576,7 +594,7 @@
         @apply text-[18px];
     }
     .bd-add-tip-page .add-tip-form .content-input {
-        @apply min-h-[130px];
+        @apply min-h-32.5;
     }
     .bd-add-tip-page .action-bar {
         @apply max-w-2xl;
@@ -741,6 +759,11 @@
         @apply text-[13px];
     }
 
+    /* BD Tip Modal */
+    .bd-page .tip-title {
+        @apply text-[16px];
+    }
+
     /* BD Add Tip Page */
     .bd-add-tip-page .add-tip-errors {
         @apply w-[95%] text-sm p-2.5;
@@ -827,6 +850,11 @@
     }
     .bd-page .categories li, .bd-page .bosses li, .bd-page .tips li {
         @apply text-sm;
+    }
+
+    /* BD Tip Modal */
+    .bd-page .tip-title {
+        @apply text-[15px];
     }
 
     /* BD Add Tip Page */

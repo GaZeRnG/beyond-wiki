@@ -204,7 +204,7 @@ export default function BeyondDepthPage() {
 
             {/* Toast */}
             {showAddedToast && (
-                <div className="toast">
+                <div className="add-tip-toast">
                     Tip added successfully!
                 </div>
             )}
