@@ -134,11 +134,9 @@ function TipModal({tip, onClose}: {tip: Tip; onClose: () => void}) {
         };
 
         document.addEventListener("keydown", handleEsc);
-        document.body.style.overflow = "hidden";
 
         return () => {
             document.removeEventListener("keydown", handleEsc);
-            document.body.style.overflow = "";
         }
     }, [onClose]);
 
