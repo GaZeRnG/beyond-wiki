@@ -11,7 +11,7 @@
     .hub-page, .login-page, .register-page {
         @apply bg-repeat bg-blend-multiply bg-zinc-700 bg-[url('/background/background.png')] bg-size-[50px] min-h-screen select-none;
     }
-    .bd-page .bd-bg, .bd-view-tip-page .view-tip-bg, .bd-add-tip-page .add-tip-bg {
+    .bd-page .bd-bg, .bd-view-tip-page .view-tip-bg, .bd-add-tip-page .add-tip-bg, .category-page .category-bg {
         @apply fixed inset-0 -z-10 bg-[url('/background/bd_background.png')] bg-size-[4318px_100%] bg-repeat-x bg-position-[0%_0%];
         filter: blur(3px);
         animation: bgAnimation 100s linear infinite;

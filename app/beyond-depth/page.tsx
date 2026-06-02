@@ -85,8 +85,17 @@ const lateBosses: Boss[] = [
 ];
 
 const itemCategories = [
-    "Weapons", "Tools", "Armor", "Accessories", "Ammo",
-    "Bars", "Ores", "Potions", "Minions", "Blocks", "Crafting Stations",
+    { name: "Weapons", href: "/beyond-depth/weapons" }, 
+    { name: "Tools", href: "/beyond-depth/tools"}, 
+    { name: "Armor", href: "/beyond-depth/armor"}, 
+    { name: "Accessories", href: "/beyond-depth/accessories"}, 
+    { name: "Ammo", href: "/beyond-depth/ammo"},
+    { name: "Bars", href: "/beyond-depth/bars"}, 
+    { name: "Ores", href: "/beyond-depth/ores"}, 
+    { name: "Potions", href: "/beyond-depth/potions"}, 
+    { name: "Minions", href: "/beyond-depth/minions"},
+    { name: "Blocks", href: "/beyond-depth/blocks"}, 
+    { name: "Crafting Stations", href: "/beyond-depth/crafting-stations"},
 ];
 
 const dimensions = [
@@ -241,7 +250,11 @@ export default function BeyondDepthPage() {
                     <p className="sector-title"><b>Items</b></p>
                     <ul>
                         {itemCategories.map((item, i) => (
-                            <li key={i}><span>{item}</span></li>
+                            <li key={i}>
+                                <a href={item.href} rel="noopener noreferrer">
+                                    <span>{item.name}</span>
+                                </a>
+                            </li>
                         ))}
                     </ul>
                 </section>
