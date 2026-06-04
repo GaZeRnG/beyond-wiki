@@ -70,12 +70,6 @@
     .loading-screen .loading-text {
         @apply text-white tracking-[0.3em] uppercase;
     }
-    /* .loading-screen .stuck-text-container {
-        @apply mt-5;
-    }
-    .loading-screen .stuck-button {
-        @apply btn bg-neutral-700 text-white rounded hover:bg-neutral-600 border-none transition-colors cursor-pointer;
-    } */
 }
 
 /* Toast */
