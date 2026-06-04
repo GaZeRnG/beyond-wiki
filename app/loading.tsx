@@ -183,6 +183,11 @@ export default function Loading() {
             <div className="loading-text-container">
                 <p id="loading-text" className="loading-text">{statusText}</p>
             </div>
+
+            {/* Stuck? */}
+            {/* <div className="stuck-text-container">
+                <button onClick={() => window.location.reload()} className="stuck-button">Stuck? Click to reload</button>
+            </div> */}
         </section>
     );
 }

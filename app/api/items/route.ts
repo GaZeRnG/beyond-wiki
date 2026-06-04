@@ -38,7 +38,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "Log in to create an item." }, { status: 401 });
     }
 
-    const { category, slug, name, description, image_url, mod_source, content } = await request.json();
+    const { category, slug, name, description, image_url, content } = await request.json();
 
     if (!category || !slug || !name) {
         return NextResponse.json({ error: 'Category, slug, and name are required' }, { status: 400 })
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
 
     const  {data: item, error} = await serviceClient
         .from("items")
-        .insert({ category, slug, name, description: description || '', image_url: image_url || null, mod_source: mod_source || null, content: content || {} })
+        .insert({ category, slug, name, description: description || '', image_url: image_url || null, content: content || {} })
         .select()
         .single()
     

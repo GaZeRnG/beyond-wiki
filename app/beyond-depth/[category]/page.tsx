@@ -1,43 +1,55 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Navbar from "@components/navbar";
 import { useParams, useRouter } from "next/navigation";
-import { createClient } from "../../../lib/supabase-browser";
+import { createClient } from "@lib/supabase-browser";
 
 interface Item {
     slug: string;
     name: string;
     description: string | null;
     image_url: string | null;
-    mod_source: string | null;
 }
 
 const validCategories = [
-    "weapons", "tools", "armor", "accessories", "ammo",
-    "bars", "ores", "potions", "minions", "blocks", "crafting-stations"
+    // Items
+    "weapons", "tools", "armor", "accessories", "ammo", "bars", "ores", "potions", "minions", "blocks", "crafting-stations",
+    // Dimensions
+    // Bosses
 ];
+
+const globalItemCache: Record<string, Item[]> = {};
 
 export default function CategoryPage() {
     const params = useParams();
     const router = useRouter();
     const category = params.category as string;
+    const categoryTitle = category.charAt(0).toUpperCase() + category.slice(1);
 
-    const [items, setItems] = useState<Item[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [items, setItems] = useState<Item[]>(() => globalItemCache[category] ?? []);
     const [user, setUser] = useState<any>(null);
-    const [showAddModal, setShowAddModal] = useState(false);
-
-    const [newSlug, setNewSlug] = useState("");
-    const [newName, setNewName] = useState("");
-    const [newDescription, setNewDescription] = useState("");
-    const [newImageUrl, setNewImageUrl] = useState("");
-    const [newModSource, setNewModSource] = useState("");
-    const [adding, setAdding] = useState(false);
-    const [addError, setAddError] = useState("");
 
     const supabase = createClient();
+
+    const fetchItems = useCallback(async () => {
+        if (!validCategories.includes(category)) return;
+
+        try {
+            const res = await fetch(`/api/items/list?category=${category}&_=${Date.now()}`, {
+                cache: "no-store",
+            });
+            const data = await res.json();
+            const newItems = data.items || [];
+
+            globalItemCache[category] = newItems;
+            setItems(newItems);
+        } catch (err) {
+            console.error("Failed to fetch items:", err);
+        }
+    }, [category]);
 
     useEffect(() => {
         if (!validCategories.includes(category)) {
@@ -45,174 +57,79 @@ export default function CategoryPage() {
             return;
         }
 
-        fetch(`/api/items/list?category=${category}`)
-            .then((res) => res.json())
-            .then((data) => {
-                setItems(data.items || []);
-                setLoading(false);
-            });
+        fetchItems();
+
+        const handleFocus = () => {
+            if (document.visibilityState === "visible") {
+                fetchItems();
+            }
+        };
+
+        document.addEventListener("visibilitychange", handleFocus);
 
         supabase.auth.getUser().then(({ data: { user } }) => {
             setUser(user);
         });
-    }, [category, router]);
 
-    const handleAdd = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setAddError("");
-        setAdding(true);
-
-        const res = await fetch("/api/items", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                category,
-                slug: newSlug.toLowerCase().replace(/\s+/g, "-"),
-                name: newName,
-                description: newDescription,
-                image_url: newImageUrl || null,
-                mod_source: newModSource || null,
-                content: {},
-            }),
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-            setAddError(data.error || "Failed to add item.");
-            setAdding(false);
-            return;
-        }
-
-        setItems([...items, data.item]);
-        setShowAddModal(false);
-        setNewSlug("");
-        setNewName("");
-        setNewDescription("");
-        setNewImageUrl("");
-        setNewModSource("");
-        setAdding(false);
-
-        router.push(`/beyond-depth/${category}/${data.item.slug}`);
-    };
-
-    if (loading) return <main className="category-page"><p>Loading...</p></main>;
-
+        return () => {
+            document.removeEventListener("visibilitychange", handleFocus);
+        };
+    }, [category, router, supabase, fetchItems]);
+    
     return (
-        <main className="category-page">
-            <nav className="breadcrumb">
-                <Link href="/beyond-depth">Beyond Depth</Link> / 
-                <span className="capitalize">{category}</span>
-            </nav>
+        <main className="bd-category-page">
+            <div className="bd-category-bg" />
+            <Navbar />
+            <div className="h-20" />
 
-            <div className="flex justify-between items-center mb-4">
-                <h1 className="category-title capitalize">{category}</h1>
-
-                    <button
-                        onClick={() => setShowAddModal(true)}
-                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-                    >
-                        + Add Item
-                    </button>
-
+            {/* Logo */}
+            <div className="page-logo">
+                <Link href="/beyond-depth">
+                    <Image src="/logo/Beyond_Depth_logo_crop.png" alt="Beyond Depth Logo" width={100} height={100} />
+                </Link>
             </div>
 
-            {showAddModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
-                    <div className="bg-neutral-900 border border-neutral-700 rounded-lg max-w-lg w-full mx-4 p-6">
-                        <h2 className="text-xl font-bold text-white mb-4">Add New {category.slice(0, -1)}</h2>
-                        
-                        {addError && (
-                            <div className="bg-red-500/20 border border-red-500/50 text-red-300 p-2 rounded mb-4 text-sm">
-                                {addError}
-                            </div>
-                        )}
+            {/* BreadAdd */}
+            <div className="bread-add">
+                {/* Breadcrumbs */}
+                <nav className="breadcrumbs">
+                    <ul>
+                        <li><Link href="/beyond-depth">Beyond Depth</Link></li>
+                        <li className="capitalize">{category}</li>
+                    </ul>
+                </nav>
 
-                        <form onSubmit={handleAdd} className="space-y-3">
-                            <input
-                                type="text"
-                                placeholder="Slug (URL name): e.g. diamond-sword"
-                                value={newSlug}
-                                onChange={(e) => setNewSlug(e.target.value)}
-                                required
-                                pattern="[a-z0-9-]+"
-                                className="w-full bg-neutral-800 text-white px-3 py-2 rounded"
-                            />
-                            <input
-                                type="text"
-                                placeholder="Item Name"
-                                value={newName}
-                                onChange={(e) => setNewName(e.target.value)}
-                                required
-                                className="w-full bg-neutral-800 text-white px-3 py-2 rounded"
-                            />
-                            <textarea
-                                placeholder="Description"
-                                value={newDescription}
-                                onChange={(e) => setNewDescription(e.target.value)}
-                                rows={3}
-                                className="w-full bg-neutral-800 text-white px-3 py-2 rounded"
-                            />
-                            <input
-                                type="text"
-                                placeholder="Image URL (optional)"
-                                value={newImageUrl}
-                                onChange={(e) => setNewImageUrl(e.target.value)}
-                                className="w-full bg-neutral-800 text-white px-3 py-2 rounded"
-                            />
-                            <input
-                                type="text"
-                                placeholder="Mod Source (optional)"
-                                value={newModSource}
-                                onChange={(e) => setNewModSource(e.target.value)}
-                                className="w-full bg-neutral-800 text-white px-3 py-2 rounded"
-                            />
-                            <div className="flex gap-2">
-                                <button
-                                    type="submit"
-                                    disabled={adding}
-                                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded disabled:opacity-50"
-                                >
-                                    {adding ? "Adding..." : "Add Item"}
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => setShowAddModal(false)}
-                                    className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded"
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+                {/* Add Item */}
+                {user && (
+                    <Link href={`/beyond-depth/${category}/add-item`} className="add-item-button">
+                        + Add Item
+                    </Link>
+                )}
+            </div>
 
-            <div className="item-grid">
+            {/* Divider */}
+            <div className="divider w-[50%] mx-auto m-0" />
+
+            {/* Title */}
+            <div className="category-title">{categoryTitle}</div>
+
+            {/* Items */}
+            <div className="items-grid">
                 {items.map((item) => (
-                    <Link
-                        key={item.slug}
-                        href={`/beyond-depth/${category}/${item.slug}`}
-                        className="item-card"
-                    >
+                    <Link key={item.slug} href={`/beyond-depth/${category}/${item.slug}`} className="item-card">
+                        {/* Image */}
                         <div className="item-image">
                             {item.image_url ? (
-                                <Image
-                                    src={item.image_url}
-                                    alt={item.name}
-                                    width={64}
-                                    height={64}
-                                    unoptimized={item.image_url.startsWith("http")}
-                                />
+                                <Image src={item.image_url} alt={item.name} width={64} height={64} unoptimized={item.image_url.startsWith("http")}/>
                             ) : (
-                                <div className="placeholder-image">?</div>
+                                <div className="placeholder-image">
+                                    <NoImage />
+                                </div>
                             )}
                         </div>
+                        {/* Info */}
                         <div className="item-info">
-                            <h3>{item.name}</h3>
-                            {item.mod_source && (
-                                <span className="mod-tag">{item.mod_source}</span>
-                            )}
+                            <h3 className="item-name">{item.name}</h3>
                             {item.description && (
                                 <p className="item-desc">{item.description}</p>
                             )}
@@ -225,5 +142,18 @@ export default function CategoryPage() {
                 <p className="empty-state">No {category} added yet.</p>
             )}
         </main>
-    );
+    )
+}
+
+function NoImage() {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-image-off-icon lucide-image-off">
+            <line x1="2" x2="22" y1="2" y2="22"/>
+            <path d="M10.41 10.41a2 2 0 1 1-2.83-2.83"/>
+            <line x1="13.5" x2="6" y1="13.5" y2="21"/>
+            <line x1="18" x2="21" y1="12" y2="15"/>
+            <path d="M3.59 3.59A1.99 1.99 0 0 0 3 5v14a2 2 0 0 0 2 2h14c.55 0 1.052-.22 1.41-.59"/>
+            <path d="M21 15V5a2 2 0 0 0-2-2H9"/>
+        </svg>
+    )
 }

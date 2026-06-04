@@ -83,13 +83,14 @@ export default function AddTipPage() {
     return (
         <main className="bd-add-tip-page">
             <div className="add-tip-bg"></div>
-
             <Navbar />
-
             <div className="h-20" />
 
+            {/* Logo */}
             <div className="page-logo">
-                <Image src="/logo/Beyond_Depth_logo_crop.png" alt="Beyond Depth Logo" width={100} height={100} />
+                <Link href="/beyond-depth">
+                    <Image src="/logo/Beyond_Depth_logo_crop.png" alt="Beyond Depth Logo" width={100} height={100} />
+                </Link>
             </div>
 
             {/* Errors */}

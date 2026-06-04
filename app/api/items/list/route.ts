@@ -13,7 +13,7 @@ export async function GET(request: Request) {
 
     const { data: items, error } = await serviceClient
         .from("items")
-        .select("slug, name, description, image_url, mod_source")
+        .select("slug, name, description, image_url")
         .eq("category", category)
         .order("name");
 

@@ -123,7 +123,7 @@ function BossSection({title, bosses}: {title: string; bosses: Boss[]}) {
     return (
         <div className="boss-tier">
             <button onClick={() => setOpen(!open)} className="drop">
-                <b>{title}</b>
+                {title}
             </button>
             <ul className={`drop-content ${open ? "active" : ""}`}>
                 {bosses.map((boss, i) => (
@@ -239,7 +239,7 @@ export default function BeyondDepthPage() {
                 </section>
 
                 <section className="others">
-                    <p className="sector-title"><b>Other Modpacks:</b></p>
+                    <p className="sector-title">Other Modpacks:</p>
                     Upcoming Feature
                 </section>
             </div>
@@ -247,7 +247,7 @@ export default function BeyondDepthPage() {
             {/* Categoris */}
             <div className="categories">
                 <section className="items">
-                    <p className="sector-title"><b>Items</b></p>
+                    <p className="sector-title">Items</p>
                     <ul>
                         {itemCategories.map((item, i) => (
                             <li key={i}>
@@ -260,7 +260,7 @@ export default function BeyondDepthPage() {
                 </section>
 
                 <section className="dimensions">
-                    <p className="sector-title"><b>Dimensions</b></p>
+                    <p className="sector-title">Dimensions</p>
                     <ul>
                         {dimensions.map((dim, i) => (
                             <li key={i}>
@@ -280,7 +280,7 @@ export default function BeyondDepthPage() {
             {/* Bosses */}
             <div className="full">
                 <section className="bosses">
-                    <p className="sector-title"><b>Bosses</b></p>
+                    <p className="sector-title">Bosses</p>
                     <div className="tier">
                         <div className="mini">
                             <BossSection title="Mini-Bosses" bosses={miniBosses} />
@@ -301,7 +301,7 @@ export default function BeyondDepthPage() {
             {/* Tips */}
             <section className="tips">
                 <p className="sector-title">
-                    <b>General Tips</b>
+                    General Tips
                     <Link href="/beyond-depth/tips/add-tip" className="add-tip">
                         <button className="open-add-tip">
                             <PlusIcon />
