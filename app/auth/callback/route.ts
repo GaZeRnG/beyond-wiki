@@ -47,5 +47,5 @@ export async function GET(request: Request) {
         console.error('Upsert error:', upsertError)
     }
 
-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/?logged_in`)
+    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}`)
 }
