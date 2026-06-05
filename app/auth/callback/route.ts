@@ -47,5 +47,11 @@ export async function GET(request: Request) {
         console.error('Upsert error:', upsertError)
     }
 
-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}`)
+    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}`), {
+        status: 307,
+        headers: {
+            'Cache-Control': 'no-store, no-cache, must-revalidate',
+            'Pragma': 'no-cache',
+        }
+    }
 }
