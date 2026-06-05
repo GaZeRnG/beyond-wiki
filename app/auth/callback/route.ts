@@ -1,4 +1,4 @@
-// auth/callback/route.ts
+export const runtime = "nodejs";
 import { createClient } from "@lib/supabase-server";
 import { createServiceClient } from "@lib/supabase-service";
 import { NextResponse } from "next/server";
@@ -6,6 +6,10 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request) {
     const { searchParams, origin } = new URL(request.url)
     const code = searchParams.get('code')
+
+    if (!code) {
+        return NextResponse.redirect(`${origin}/login?error=auth_failed`)
+    }
 
     if (code) {
         // This exchanges the code and sets the session cookie
