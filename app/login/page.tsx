@@ -65,8 +65,7 @@ export default function LoginPage() {
             await syncUserToTable(data.user);
         }
 
-        router.push("/");
-        router.refresh();
+        window.location.href = "/";
     };
 
     const handleOAuthLogin = async (provider: "google" | "discord") => {
