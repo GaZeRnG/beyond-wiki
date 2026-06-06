@@ -3,6 +3,7 @@ import { createServiceClient } from "@lib/supabase-service";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
+    const { origin } = new URL(request.url)
     const { searchParams } = new URL(request.url)
     const code = searchParams.get('code')
 
