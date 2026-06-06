@@ -3,12 +3,11 @@ import { createServiceClient } from "@lib/supabase-service";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-    const { origin } = new URL(request.url)
     const { searchParams } = new URL(request.url)
     const code = searchParams.get('code')
 
     if (!code) {
-        return NextResponse.redirect(`${origin}/login?error=auth_failed`)
+        return NextResponse.redirect(`${window.location.origin}/login?error=auth_failed`)
     }
 
     const supabase = await createClient()
@@ -16,7 +15,7 @@ export async function GET(request: Request) {
     
     if (error || !user) {
         console.error('Auth error:', error)
-        return NextResponse.redirect(`${origin}/login?error=auth_failed`)
+        return NextResponse.redirect(`${window.location.origin}/login?error=auth_failed`)
     }
 
     const metadata = user.user_metadata || {}
@@ -47,5 +46,5 @@ export async function GET(request: Request) {
         console.error('Upsert error:', upsertError)
     }
 
-    return NextResponse.redirect(`${origin}/`)
+    return NextResponse.redirect(`${window.location.origin}/`)
 }
