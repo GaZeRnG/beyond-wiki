@@ -1,4 +1,3 @@
-export const runtime = "nodejs";
 import { createClient } from "@lib/supabase-server";
 import { createServiceClient } from "@lib/supabase-service";
 import { NextResponse } from "next/server";
@@ -8,7 +7,7 @@ export async function GET(request: Request) {
     const code = searchParams.get('code')
 
     if (!code) {
-        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/login?error=auth_failed`)
+        return NextResponse.redirect(`${origin}/login?error=auth_failed`)
     }
 
     const supabase = await createClient()
@@ -16,7 +15,7 @@ export async function GET(request: Request) {
     
     if (error || !user) {
         console.error('Auth error:', error)
-        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/login?error=auth_failed`)
+        return NextResponse.redirect(`${origin}/login?error=auth_failed`)
     }
 
     const metadata = user.user_metadata || {}
@@ -47,5 +46,5 @@ export async function GET(request: Request) {
         console.error('Upsert error:', upsertError)
     }
 
-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/?hiii`)
+    return NextResponse.redirect(`${origin}/`)
 }
