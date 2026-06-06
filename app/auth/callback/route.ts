@@ -40,7 +40,7 @@ export async function GET(request: Request) {
                 console.error('Error upserting user:', upsertError);
             }
 
-            return NextResponse.redirect(`${origin}/`);
+            return redirect('/');
         }
 
         if (error) {
