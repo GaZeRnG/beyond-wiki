@@ -100,11 +100,11 @@ export default function CategoryPage() {
                 </nav>
 
                 {/* Add Item */}
-                {user && (
+                {/* {user && ( */}
                     <Link href={`/beyond-depth/${category}/add-item`} className="add-item-button">
                         + Add Item
                     </Link>
-                )}
+                {/* )} */}
             </div>
 
             {/* Divider */}
