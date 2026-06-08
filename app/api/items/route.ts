@@ -63,7 +63,14 @@ export async function POST(request: Request) {
 
     const  {data: item, error} = await serviceClient
         .from("items")
-        .insert({ category, slug, name, description: description || '', image_url: image_url || null, content: content || {} })
+        .insert({ 
+            category, 
+            slug, 
+            name, 
+            description: description || '', 
+            image_url: image_url || null, 
+            content: content || {},
+        })
         .select()
         .single()
     

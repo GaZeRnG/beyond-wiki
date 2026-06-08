@@ -1,7 +1,6 @@
 import { createClient } from "@lib/supabase-server";
 import { createServiceClient } from "@lib/supabase-service";
 import { NextResponse } from "next/server";
-import { serialize } from "v8";
 
 // Update le item
 export async function PUT(
@@ -22,12 +21,12 @@ export async function PUT(
         return NextResponse.json({ error: "Log in to update an item." }, { status: 401 });
     }
 
-    const { name, description, content, edit_summary } = await request.json();
+    const { name, description, image_url, content } = await request.json();
     const serviceClient = createServiceClient();
 
     const {data: currentItem} = await serviceClient
         .from("items")
-        .select("name, description, content")
+        .select("name, description, image_url, content")
         .eq("id", itemId)
         .single();
 
@@ -45,7 +44,13 @@ export async function PUT(
 
     const {error: updateError} = await serviceClient
         .from("items")
-        .update({ name, description, content, updated_at: new Date().toISOString() })
+        .update({ 
+            name, 
+            description, 
+            image_url: image_url || null,
+            content, 
+            updated_at: new Date().toISOString() 
+        })
         .eq("id", itemId);
 
     if (updateError) {
@@ -59,9 +64,9 @@ export async function PUT(
             item_id: itemId,
             editor_id: user.id,
             editor_name: editorName,
-            old_content: { name: currentItem.name, description: currentItem.description, content: currentItem.content },
-            new_content: { name, description, content },
-            edit_summary: edit_summary || "No edit summary provided.",
+            old_content: { name: currentItem.name, description: currentItem.description, image_url: currentItem.image_url, content: currentItem.content },
+            new_content: { name, description, image_url, content },
+            edit_summary: `Updated ${currentItem.name}.`,
         });
     
     return NextResponse.json({ success: true, message: "Item updated successfully." });
