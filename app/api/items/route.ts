@@ -17,8 +17,8 @@ export async function GET(request: Request) {
     const {data: item, error} = await serviceClient
         .from("items")
         .select("*")
-        .eq("category", category)
-        .eq("slug", slug)
+        .ilike("category", category)
+        .ilike("slug", slug)
         .single();
     
     if (error) {

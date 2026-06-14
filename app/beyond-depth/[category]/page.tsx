@@ -31,6 +31,7 @@ export default function CategoryPage() {
 
     const [items, setItems] = useState<Item[]>(() => globalItemCache[category] ?? []);
     const [user, setUser] = useState<any>(null);
+    const [showDeleteToast, setShowDeleteToast] = useState(false);
 
     const supabase = createClient();
 
@@ -38,9 +39,7 @@ export default function CategoryPage() {
         if (!validCategories.includes(category)) return;
 
         try {
-            const res = await fetch(`/api/items/list?category=${category}&_=${Date.now()}`, {
-                cache: "no-store",
-            });
+            const res = await fetch(`/api/items/list?category=${category}`);
             const data = await res.json();
             const newItems = data.items || [];
 
@@ -50,6 +49,15 @@ export default function CategoryPage() {
             console.error("Failed to fetch items:", err);
         }
     }, [category]);
+
+    useEffect(() => {
+        if (sessionStorage.getItem("deleted-item")) {
+            setShowDeleteToast(true);
+            sessionStorage.removeItem("deleted-item");
+            const timer = setTimeout(() => setShowDeleteToast(false), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, []);
 
     useEffect(() => {
         if (!validCategories.includes(category)) {
@@ -78,9 +86,16 @@ export default function CategoryPage() {
     
     return (
         <main className="bd-category-page">
-            <div className="bd-category-bg" />
+            <div className="bd-bg" />
             <Navbar />
             <div className="h-20" />
+
+            {/* Toast */}
+            {showDeleteToast && (
+                <div className="deleted-item-toast">
+                    <ToastCheck />Item Deleted
+                </div>
+            )}
 
             {/* Logo */}
             <div className="page-logo">
@@ -90,7 +105,7 @@ export default function CategoryPage() {
             </div>
 
             {/* BreadAdd */}
-            <div className="bread-add">
+            <section className="bread-add">
                 {/* Breadcrumbs */}
                 <nav className="breadcrumbs">
                     <ul>
@@ -100,12 +115,12 @@ export default function CategoryPage() {
                 </nav>
 
                 {/* Add Item */}
-                {/* {user && ( */}
+                {user && (
                     <Link href={`/beyond-depth/${category}/add-item`} className="add-item-button">
                         + Add Item
                     </Link>
-                {/* )} */}
-            </div>
+                )}
+            </section>
 
             {/* Divider */}
             <div className="divider w-[50%] mx-auto m-0" />
@@ -154,6 +169,15 @@ function NoImage() {
             <line x1="18" x2="21" y1="12" y2="15"/>
             <path d="M3.59 3.59A1.99 1.99 0 0 0 3 5v14a2 2 0 0 0 2 2h14c.55 0 1.052-.22 1.41-.59"/>
             <path d="M21 15V5a2 2 0 0 0-2-2H9"/>
+        </svg>
+    )
+}
+
+function ToastCheck() {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-circle-check-icon lucide-circle-check">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="m9 12 2 2 4-4"/>
         </svg>
     )
 }
