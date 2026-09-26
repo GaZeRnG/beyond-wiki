@@ -16,7 +16,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 
 export default function LoginPage() {
     const router = useRouter();
-    const searchParams = useSearchParams();
+    // const searchParams = useSearchParams();
     const supabase = createClient();
 
     const [email, setEmail] = useState("");
@@ -25,7 +25,7 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    const registered = searchParams.get('registered') === 'true';
+    // const registered = searchParams.get('registered') === 'true';
 
     const handleOAuthLogin = async (provider: "google" | "discord") => {
         const { data, error } = await supabase.auth.signInWithOAuth({
@@ -54,12 +54,12 @@ export default function LoginPage() {
                             <CardTitle>Login To Beyond Wiki</CardTitle>
                             <CardDescription>Welcome Back to Beyond Wiki. Enter your email below to login to your account.</CardDescription>
                             {/* Registered */}
-                            {registered && (
+                            {/* {registered && (
                                 <Alert className="flex flex-row justify-center bg-green-500/20 border border-green-500/50 text-green-300 p-2 text-sm">
                                     <BadgeCheck />
                                     <AlertTitle>Registration Successful!</AlertTitle>
                                 </Alert>
-                            )}
+                            )} */}
 
                             {/* Error */}
                             {error && (
