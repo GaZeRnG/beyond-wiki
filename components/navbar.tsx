@@ -51,7 +51,7 @@ export default function Navbar({page = ""}: {page?: string}) {
             if (user) {
                 const {data} = await supabase
                     .from('users')
-                    .select('user_name, user_avatar')
+                    .select('user_name')
                     .eq('id', user.id)
                     .single();
                 setUserData(data);
@@ -61,8 +61,6 @@ export default function Navbar({page = ""}: {page?: string}) {
         }
 
         getUser();
-
-        
     })
 
     // Close search on click outside the search input
@@ -144,7 +142,7 @@ export default function Navbar({page = ""}: {page?: string}) {
                 {user ? (
                     <Link href="/account">
                         <Avatar size="lg">
-                            <AvatarImage src={userData.user_avatar} alt="Profile" />
+                            {/* <AvatarImage src={userData.user_avatar} alt="Profile" /> */}
                             <AvatarFallback>{userData?.name[0]}</AvatarFallback>
                         </Avatar>
                     </Link>
