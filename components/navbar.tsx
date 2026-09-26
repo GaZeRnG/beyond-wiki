@@ -45,23 +45,29 @@ export default function Navbar({page = ""}: {page?: string}) {
     // Get user
     useEffect(() => {
         const getUser = async () => {
-            const { data: {user} } = await supabase.auth.getUser();
+            const { data: {user}, error } = await supabase.auth.getUser();
             setUser(user);
 
             if (user) {
-                const {data} = await supabase
+                const {data: publicData} = await supabase
                     .from('users')
                     .select('user_name')
                     .eq('id', user.id)
                     .single();
-                setUserData(data);
+
+                const authAvatarUrl = user.user_metadata?.avatar_url || user.user_metadata?.picture;
+
+                setUserData({
+                    user_name: publicData?.user_name || null,
+                    avatar_url: authAvatarUrl || null
+                });
             } else {
                 setUserData(null);
             }
         }
 
         getUser();
-    })
+    }, []);
 
     // Close search on click outside the search input
     useEffect(() => {
@@ -142,7 +148,7 @@ export default function Navbar({page = ""}: {page?: string}) {
                 {user ? (
                     <Link href="/account">
                         <Avatar size="lg">
-                            {/* <AvatarImage src={userData.user_avatar} alt="Profile" /> */}
+                            <AvatarImage src={userData?.avatar_url} alt="Profile" />
                             <AvatarFallback>{userData?.name[0]}</AvatarFallback>
                         </Avatar>
                     </Link>
