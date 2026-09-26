@@ -25,12 +25,12 @@ export default function Navbar({page = ""}: {page?: string}) {
 
     // Themes
     const DoLight = () => {
-        localStorage.setItem("theme", "light");
+        // localStorage.setItem("theme", "light");
         setTheme("light");
     }
     
     const DoDark = () => {
-        localStorage.setItem("theme", "dark");
+        // localStorage.setItem("theme", "dark");
         setTheme("dark");
     }
 
