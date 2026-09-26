@@ -62,12 +62,12 @@ export default function LoginPage() {
                             )}
 
                             {/* Error */}
-                            {error && (
+                            {/* {error && (
                                 <Alert className="flex flex-row justify-center bg-red-500/20 border border-red-500/50 text-red-300 p-2 text-sm">
                                     <BadgeAlert />
                                     <AlertTitle>{error}</AlertTitle>
                                 </Alert>
-                            )}
+                            )} */}
                         </CardHeader>
                         <CardContent>
                             <form>
