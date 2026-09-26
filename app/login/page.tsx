@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -10,8 +10,8 @@ import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/lib/supabase-browser";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { BadgeCheck, BadgeAlert } from "lucide-react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { BadgeCheck, BadgeAlert, Eye, EyeClosed } from "lucide-react";
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 
 export default function LoginPage() {
@@ -25,7 +25,38 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    // const registered = searchParams.get('registered') === 'true';
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setError("");
+
+        let loginEmail = email.trim();
+
+        if (!loginEmail.includes("@")) {
+            const { data: emailData, error: lookupError } = await supabase
+                .rpc('get_email_by_username', { username_input: loginEmail });
+
+            if (lookupError || !emailData || emailData.length === 0) {
+                setError("User not found");
+                setLoading(false);
+                return;
+            }
+            loginEmail = emailData[0].user_email;
+        }
+
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: loginEmail,
+            password,
+        });
+
+        if (error) {
+            setError(error.message);
+            setLoading(false);
+            return;
+        }
+
+        window.location.href = "/";
+    }
 
     const handleOAuthLogin = async (provider: "google" | "discord") => {
         const { data, error } = await supabase.auth.signInWithOAuth({
@@ -34,6 +65,7 @@ export default function LoginPage() {
 
         if (error) {
             setError(error.message);
+            return;
         }
     };
 
@@ -49,7 +81,7 @@ export default function LoginPage() {
                             </Link>
                         </Button>
                     </p>
-                    <Card className="w-full max-w-sm">
+                    <Card className="w-full max-w-sm" onSubmit={handleLogin}>
                         <CardHeader>
                             <CardTitle>Login To Beyond Wiki</CardTitle>
                             <CardDescription>Welcome Back to Beyond Wiki. Enter your email below to login to your account.</CardDescription>
@@ -69,12 +101,12 @@ export default function LoginPage() {
                                 </Alert>
                             )}
                         </CardHeader>
-                        <CardContent>
-                            <form>
+                        <form>
+                            <CardContent className="mb-5">
                                 <div className="flex flex-col gap-5">
                                     <div className="grid gap-2">
                                         <Label htmlFor="email">Username or Email</Label>
-                                        <Input id="email" type="text" placeholder="Wikiversal or email@example.com" required />
+                                        <Input id="email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Wikiversal or email@example.com" required />
                                     </div>
                                     <div className="grid gap-2">
                                         <div className="flex items-center">
@@ -83,27 +115,32 @@ export default function LoginPage() {
                                                 Forgot your Password?
                                             </a>
                                         </div>
-                                        <Input id="password" type="password" required />
+                                        <div className="flex">
+                                            <Input id="password" type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} minLength={8} required />
+                                            <Button variant="ghost" type="button" onClick={() => setShowPassword(!showPassword)}>
+                                                {showPassword ? <Eye /> : <EyeClosed />}
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
-                            </form>
-                        </CardContent>
-                        <CardFooter className="flex-col gap-2">
-                            <Button type="submit" className="w-full mb-2">
-                                Login
-                            </Button>
-                            <Separator />
-                            <div className="grid grid-cols-2 gap-3 mt-2">
-                                <Button variant="google" onClick={() => handleOAuthLogin("google")}>
-                                    <Image src="/logo/google-icon.svg" alt="Google" width={20} height={20}  />
-                                    Login with Google
+                            </CardContent>
+                            <CardFooter className="flex-col gap-2">
+                                <Button type="submit" disabled={loading} className="w-full mb-2">
+                                    {loading ? "Logging In..." : "Login"}
                                 </Button>
-                                <Button variant="discord" onClick={() => handleOAuthLogin("discord")}>
-                                    <Image src="/logo/discord-icon.svg" alt="Discord" width={20} height={20} />
-                                    Login with Discord
-                                </Button>
-                            </div>
-                        </CardFooter>
+                                <Separator />
+                                <div className="grid grid-cols-2 gap-3 mt-2">
+                                    <Button variant="google" onClick={() => handleOAuthLogin("google")}>
+                                        <Image src="/logo/google-icon.svg" alt="Google" width={20} height={20}  />
+                                        Login with Google
+                                    </Button>
+                                    <Button variant="discord" onClick={() => handleOAuthLogin("discord")}>
+                                        <Image src="/logo/discord-icon.svg" alt="Discord" width={20} height={20} />
+                                        Login with Discord
+                                    </Button>
+                                </div>
+                            </CardFooter>
+                        </form>
                     </Card>
                 </div>
             </section>
