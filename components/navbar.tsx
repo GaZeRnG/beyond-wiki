@@ -5,7 +5,7 @@ import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import { animate } from "animejs";
 import { useTheme } from "next-themes";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase-browser";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -51,15 +51,13 @@ export default function Navbar({page = ""}: {page?: string}) {
             if (user) {
                 const {data: publicData} = await supabase
                     .from('users')
-                    .select('user_name')
+                    .select('user_name, user_avatar')
                     .eq('id', user.id)
                     .single();
 
-                const authAvatarUrl = user.user_metadata?.avatar_url || user.user_metadata?.picture;
-
                 setUserData({
                     user_name: publicData?.user_name || null,
-                    avatar_url: authAvatarUrl || null
+                    avatar_url: publicData?.user_avatar || null
                 });
             } else {
                 setUserData(null);
@@ -148,7 +146,7 @@ export default function Navbar({page = ""}: {page?: string}) {
                 {user ? (
                     <Link href="/account">
                         <Avatar size="lg">
-                            <AvatarImage src={userData?.avatar_url} alt="Profile" />
+                            <AvatarImage src={userData.avatar_url} alt="Profile" />
                             <AvatarFallback>{userData?.user_name}</AvatarFallback>
                         </Avatar>
                     </Link>

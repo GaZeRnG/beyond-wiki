@@ -44,15 +44,5 @@ export async function GET(request: Request) {
         }
     }
 
-    // Extract display name
-    const userName =
-        customClaims.global_name ||      // Discord display name
-        metadata.full_name ||            // Google / generic
-        metadata.name ||
-        user.email?.split("@")[0] ||
-        "User";
-
-    console.error("aaaaaaaaaaaa");
-
     return redirect("/");
 }
