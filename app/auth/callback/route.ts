@@ -62,6 +62,7 @@ export async function GET(request: Request) {
 
     if (upsertError) {
         console.error("Users table sync error:", upsertError);
+        return redirect("/login?error=auth_failed");
     }
 
     return redirect("/");
