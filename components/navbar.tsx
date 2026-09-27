@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase-browser";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -55,8 +55,8 @@ export default function Navbar({page = ""}: {page?: string}) {
                     .maybeSingle();
 
                 setUserData({
-                    user_name: publicData?.user_name ?? null,
-                    avatar_url: publicData?.user_avatar ?? null
+                    user_name: publicData?.user_name,
+                    avatar_url: publicData?.user_avatar
                 });
             } else {
                 setUserData(null);
