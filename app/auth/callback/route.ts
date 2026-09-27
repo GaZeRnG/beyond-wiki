@@ -3,8 +3,6 @@ import { createServiceClient } from "@/lib/supabase-service";
 import { redirect } from "next/navigation";
 
 export async function GET(request: Request) {
-    console.log("hi");
-
     const { searchParams, origin } = new URL(request.url);
     const code = searchParams.get("code");
 
@@ -46,8 +44,6 @@ export async function GET(request: Request) {
         }
     }
 
-    console.log("hiii");
-
     // Extract display name
     const userName =
         customClaims.global_name ||      // Discord display name
@@ -56,25 +52,7 @@ export async function GET(request: Request) {
         user.email?.split("@")[0] ||
         "User";
 
-    console.log("hiiii");
-
-    // Sync to own table
-    const service = createServiceClient();
-    console.log("a");
-    const { error: upsertError } = await service
-        .from("users")
-        .upsert({
-            id: user.id,
-            user_name: userName,
-            user_avatar: avatarUrl,
-        }, { onConflict: "id" });
-    console.log("b");
-
-    if (upsertError) {
-        console.error("Users table sync error:", upsertError);
-        return redirect("/login?error=auth_failed");
-    }
-    console.log("c");
+    console.error("aaaaaaaaaaaa");
 
     return redirect("/");
 }
