@@ -52,6 +52,7 @@ export async function GET(request: Request) {
 
     // Sync to own table
     const service = createServiceClient();
+    console.log("upserting...")
     const { error: upsertError } = await service
         .from("users")
         .upsert({
@@ -61,8 +62,8 @@ export async function GET(request: Request) {
         }, { onConflict: "id" });
 
     if (upsertError) {
-        console.error("Users table sync error:", JSON.stringify(upsertError, null, 2));
-        return redirect(`/?sync_error=${upsertError.code}`); // temporary, for debugging
+        console.error("Users table sync error:", upsertError);
+        return redirect("/login?error=auth_failed");
     }
 
     return redirect("/");
