@@ -61,8 +61,8 @@ export async function GET(request: Request) {
         }, { onConflict: "id" });
 
     if (upsertError) {
-        console.error("Users table sync error:", upsertError);
-        return redirect("/login?error=auth_failed");
+        console.error("Users table sync error:", JSON.stringify(upsertError, null, 2));
+        return redirect(`/?sync_error=${upsertError.code}`); // temporary, for debugging
     }
 
     return redirect("/");
