@@ -53,11 +53,11 @@ export default function Navbar({page = ""}: {page?: string}) {
                     .from('users')
                     .select('user_name, user_avatar')
                     .eq('id', user.id)
-                    .single();
+                    .maybeSingle();
 
                 setUserData({
-                    user_name: publicData?.user_name || null,
-                    avatar_url: publicData?.user_avatar || null
+                    user_name: publicData?.user_name ?? null,
+                    avatar_url: publicData?.user_avatar ?? null
                 });
             } else {
                 setUserData(null);
@@ -147,7 +147,7 @@ export default function Navbar({page = ""}: {page?: string}) {
                     <Link href="/account">
                         <Avatar size="lg">
                             {/* <AvatarImage src={userData.avatar_url} alt="Profile" /> */}
-                            <AvatarFallback>{userData?.user_name}</AvatarFallback>
+                            <AvatarFallback>{userData?.user_name[0]}</AvatarFallback>
                         </Avatar>
                     </Link>
                 ) : (
