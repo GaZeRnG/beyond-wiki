@@ -3,9 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
-import { animate } from "animejs";
 import { useTheme } from "next-themes";
-import { Moon, Sun, User } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase-browser";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -146,7 +145,7 @@ export default function Navbar({page = ""}: {page?: string}) {
                 {user ? (
                     <Link href="/account">
                         <Avatar size="lg">
-                            {/* <AvatarImage src={userData.avatar_url} alt="Profile" /> */}
+                            <AvatarImage src={userData.avatar_url} alt="Profile" />
                             <AvatarFallback>{userData?.user_name[0].toUpperCase()}</AvatarFallback>
                         </Avatar>
                     </Link>
