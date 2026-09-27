@@ -67,6 +67,8 @@ export default function LoginPage() {
             setError(error.message);
             return;
         }
+
+        
     };
 
     return (

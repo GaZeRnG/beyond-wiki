@@ -25,15 +25,15 @@ export async function GET(request: Request) {
     // Extract avatar
     let avatarUrl: string | null = null;
 
-    // Google 
+    // Google
     if (provider === "google") {
         avatarUrl = metadata.avatar_url || metadata.picture || null;
     }
 
-    // Discord 
+    // Discord
     if (provider === "discord") {
         avatarUrl = metadata.avatar_url || metadata.picture || null;
-        
+
         if (!avatarUrl && customClaims.avatar && metadata.provider_id) {
             const hash = String(customClaims.avatar);
             const discordId = String(metadata.provider_id);
@@ -57,7 +57,7 @@ export async function GET(request: Request) {
         .upsert({
             id: user.id,
             user_name: userName,
-            user_avatar: avatarUrl || "/images/pfp/default.png",
+            user_avatar: avatarUrl,
         }, { onConflict: "id" });
 
     if (upsertError) {
