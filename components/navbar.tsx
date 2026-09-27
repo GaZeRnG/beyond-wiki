@@ -48,13 +48,23 @@ export default function Navbar({page = ""}: {page?: string}) {
             setUser(user);
 
             if (user) {
-                const {data} = await supabase
-                    .from('users')
-                    .select('user_name, user_avatar')
-                    .eq('id', user.id)
-                    .maybeSingle();
+                try {
+                    const{data, error: fetchError} = await supabase
+                        .from('users')
+                        .select('user_name, user_avatar')
+                        .eq('id', user.id)
+                        .maybeSingle();
 
-                setUserData(data);
+                    if (fetchError) {
+                        console.error("Failed to fetch user data:", fetchError);
+                        setUserData(null);
+                    } else {
+                        setUserData(data);
+                    }
+                } catch (error) {
+                    console.error("Error while fetching user data:", error);
+                    setUserData(null);
+                }
             } else {
                 setUserData(null);
             }
