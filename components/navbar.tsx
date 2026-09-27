@@ -146,7 +146,7 @@ export default function Navbar({page = ""}: {page?: string}) {
                 {user ? (
                     <Link href="/account">
                         <Avatar size="lg">
-                            <AvatarImage src={userData.avatar_url} alt="Profile" />
+                            {/* <AvatarImage src={userData.avatar_url} alt="Profile" /> */}
                             <AvatarFallback>{userData?.user_name}</AvatarFallback>
                         </Avatar>
                     </Link>
