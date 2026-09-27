@@ -48,16 +48,13 @@ export default function Navbar({page = ""}: {page?: string}) {
             setUser(user);
 
             if (user) {
-                const {data: publicData} = await supabase
+                const {data} = await supabase
                     .from('users')
                     .select('user_name, user_avatar')
                     .eq('id', user.id)
                     .maybeSingle();
 
-                setUserData({
-                    user_name: publicData?.user_name,
-                    avatar_url: publicData?.user_avatar
-                });
+                setUserData(data);
             } else {
                 setUserData(null);
             }
