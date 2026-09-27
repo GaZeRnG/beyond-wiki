@@ -48,23 +48,13 @@ export default function Navbar({page = ""}: {page?: string}) {
             setUser(user);
 
             if (user) {
-                try {
-                    const{data, error: fetchError} = await supabase
-                        .from('users')
-                        .select('user_name, user_avatar')
-                        .eq('id', user.id)
-                        .maybeSingle();
+                const {data} = await supabase
+                    .from('users')
+                    .select('user_name, user_avatar')
+                    .eq('id', user.id)
+                    .maybeSingle();
 
-                    if (fetchError) {
-                        console.error("Failed to fetch user data:", fetchError);
-                        setUserData(null);
-                    } else {
-                        setUserData(data);
-                    }
-                } catch (error) {
-                    console.error("Error while fetching user data:", error);
-                    setUserData(null);
-                }
+                setUserData(data)
             } else {
                 setUserData(null);
             }
@@ -152,7 +142,7 @@ export default function Navbar({page = ""}: {page?: string}) {
                 {user ? (
                     <Link href="/account">
                         <Avatar size="lg">
-                            <AvatarImage src={userData?.avatar_url} alt="Profile" />
+                            <AvatarImage src={userData?.user_avatar} alt="Profile" />
                             <AvatarFallback>{userData?.user_name[0].toUpperCase()}</AvatarFallback>
                         </Avatar>
                     </Link>
