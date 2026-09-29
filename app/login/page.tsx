@@ -24,7 +24,7 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    const registered = searchParams.get('registered') === 'true';
+    // const registered = searchParams.get('registered') === 'true';
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -98,12 +98,12 @@ export default function LoginPage() {
                         <form onSubmit={handleLogin}>
                             <CardContent className="mb-5">
                                 {/* Registered */}
-                                {registered && (
+                                {/* {registered && (
                                     <Alert className="flex flex-row justify-center bg-green-500/20 border border-green-500/50 text-green-300 p-2 text-sm">
                                         <BadgeCheck />
                                         <AlertTitle>Registration Successful!</AlertTitle>
                                     </Alert>
-                                )}
+                                )} */}
 
                                 {/* Error */}
                                 {error && (
