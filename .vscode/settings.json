@@ -27,7 +27,8 @@
         "statusBar.debuggingBackground": "#00297a",
         "statusBar.debuggingForeground": "#e7e7e7",
         "activityBar.activeBorder": "#e7e7e7",
-        "activityBarTop.activeBorder": "#e7e7e7"
+        "activityBarTop.activeBorder": "#e7e7e7",
+        "statusBar.inactiveBackground": "#00297a"
     },
     "peacock.color": "#00297a",
     "sqltools.connections": [],

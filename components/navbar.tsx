@@ -1,16 +1,19 @@
 "use client";
 
-import Link from "next/link";
+import Link from "next/link";       
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
-import { Moon, Sun, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase-browser";
+import { Moon, Sun, User, Settings, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
 
 export default function Navbar({page = ""}: {page?: string}) {
+    const router = useRouter();
+
     const [user, setUser] = useState<any>(null);
     const [userData, setUserData] = useState<any>(null);
     const [search, setSearch] = useState("");
@@ -24,12 +27,10 @@ export default function Navbar({page = ""}: {page?: string}) {
 
     // Themes
     const DoLight = () => {
-        // localStorage.setItem("theme", "light");
         setTheme("light");
     }
     
     const DoDark = () => {
-        // localStorage.setItem("theme", "dark");
         setTheme("dark");
     }
 
@@ -96,6 +97,20 @@ export default function Navbar({page = ""}: {page?: string}) {
         }
     };
 
+    // Logout
+    const handleLogout = async () => {
+        try {
+            const res = await fetch('/api/logOut', { method: 'POST' });
+            if (!res.ok) throw new Error("Failed to logout");
+
+            router.push('/login');
+            router.refresh();
+        } catch (error) {
+            console.error(error);
+            window.location.href = "/login";
+        }
+    }
+
     return (
         <nav className="grid grid-cols-[1fr_2fr_1fr] fixed w-full h-15 top-0 z-100 px-2 bg-background">
             {/* Logo */}
@@ -139,13 +154,41 @@ export default function Navbar({page = ""}: {page?: string}) {
                     <span className="sr-only">Toggle theme</span>
                 </Button>
 
+                {/* Account */}
                 {user ? (
-                    <Link href="/account">
-                        <Avatar size="lg">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger render={<Button variant="ghost" size="icon" className="rounded-full">
+                            <Avatar size="lg">
+                                <AvatarImage src={userData?.user_avatar} alt="Progile" />
+                                <AvatarFallback>{userData?.user_name[0].toUpperCase()}</AvatarFallback>
+                            </Avatar>
+                        </Button>} />
+                        <DropdownMenuContent align="end" className="mt-3">
+                            <DropdownMenuGroup>
+                                <Link href="/profile">
+                                    <DropdownMenuItem>
+                                        <User />
+                                        Account
+                                    </DropdownMenuItem>
+                                </Link>
+                                <Link href="/settings">
+                                    <DropdownMenuItem>
+                                        <Settings />
+                                        Settings
+                                    </DropdownMenuItem>
+                                </Link>
+                            </DropdownMenuGroup>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem variant="destructive" onClick={handleLogout}>
+                                <LogOut />
+                                Logout
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                        {/* <Avatar size="lg">
                             <AvatarImage src={userData?.user_avatar} alt="Profile" />
                             <AvatarFallback>{userData?.user_name[0].toUpperCase()}</AvatarFallback>
-                        </Avatar>
-                    </Link>
+                        </Avatar> */}
+                    </DropdownMenu>
                 ) : (
                     <Button className="flex items-center h-10 rounded-sm px-2 bg-primary text-primary-foreground">
                         <Link href="/login">

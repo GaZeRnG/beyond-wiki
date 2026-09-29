@@ -8,22 +8,23 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/lib/supabase-browser";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Alert, AlertTitle } from "@/components/ui/alert";
+import { useRouter, useSearchParams } from "next/navigation";
 import { BadgeCheck, BadgeAlert, Eye, EyeClosed } from "lucide-react";
-import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 
 export default function LoginPage() {
-    const router = useRouter();
-    // const searchParams = useSearchParams();
     const supabase = createClient();
+    const searchParams = useSearchParams();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+
+    const registered = searchParams.get('registered') === 'true';
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -67,8 +68,6 @@ export default function LoginPage() {
             setError(error.message);
             return;
         }
-
-        
     };
 
     return (
@@ -83,28 +82,37 @@ export default function LoginPage() {
                             </Link>
                         </Button>
                     </p>
-                    <Card className="w-full max-w-sm" onSubmit={handleLogin}>
+                    <Card className="w-full max-w-sm">
                         <CardHeader>
                             <CardTitle>Login To Beyond Wiki</CardTitle>
                             <CardDescription>Welcome Back to Beyond Wiki. Enter your email below to login to your account.</CardDescription>
-                            {/* Registered */}
-                            {/* {registered && (
-                                <Alert className="flex flex-row justify-center bg-green-500/20 border border-green-500/50 text-green-300 p-2 text-sm">
-                                    <BadgeCheck />
-                                    <AlertTitle>Registration Successful!</AlertTitle>
-                                </Alert>
-                            )} */}
+                            <CardAction>
+                                <Button variant="link" className="text-foreground pb-2">
+                                    <a href="/signup">
+                                        Sign Up
+                                    </a>
+                                </Button>
+                            </CardAction>
 
-                            {/* Error */}
-                            {error && (
-                                <Alert className="flex flex-row justify-center bg-red-500/20 border border-red-500/50 text-red-300 p-2 text-sm">
-                                    <BadgeAlert />
-                                    <AlertTitle>{error}</AlertTitle>
-                                </Alert>
-                            )}
                         </CardHeader>
-                        <form>
+                        <form onSubmit={handleLogin}>
                             <CardContent className="mb-5">
+                                {/* Registered */}
+                                {registered && (
+                                    <Alert className="flex flex-row justify-center bg-green-500/20 border border-green-500/50 text-green-300 p-2 text-sm">
+                                        <BadgeCheck />
+                                        <AlertTitle>Registration Successful!</AlertTitle>
+                                    </Alert>
+                                )}
+
+                                {/* Error */}
+                                {error && (
+                                    <Alert className="flex flex-row justify-center bg-red-500/20 border border-red-500/50 text-red-300 p-2 text-sm">
+                                        <BadgeAlert />
+                                        <AlertTitle>{error}</AlertTitle>
+                                    </Alert>
+                                )}
+
                                 <div className="flex flex-col gap-5">
                                     <div className="grid gap-2">
                                         <Label htmlFor="email">Username or Email</Label>
