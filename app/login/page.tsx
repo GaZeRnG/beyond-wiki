@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ import { BadgeCheck, BadgeAlert, Eye, EyeClosed } from "lucide-react";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 
-export default function LoginPage() {
+const LoginPageComponent = () => {
     const supabase = createClient();
     const searchParams = useSearchParams();
 
@@ -24,7 +24,7 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    // const registered = searchParams.get('registered') === 'true';
+    const registered = searchParams.get('registered') === 'true';
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -98,12 +98,12 @@ export default function LoginPage() {
                         <form onSubmit={handleLogin}>
                             <CardContent className="mb-5">
                                 {/* Registered */}
-                                {/* {registered && (
+                                {registered && (
                                     <Alert className="flex flex-row justify-center bg-green-500/20 border border-green-500/50 text-green-300 p-2 text-sm">
                                         <BadgeCheck />
                                         <AlertTitle>Registration Successful!</AlertTitle>
                                     </Alert>
-                                )} */}
+                                )}
 
                                 {/* Error */}
                                 {error && (
@@ -156,4 +156,12 @@ export default function LoginPage() {
             </section>
         </main>
     )
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <LoginPageComponent />
+        </Suspense>
+    );
 }
