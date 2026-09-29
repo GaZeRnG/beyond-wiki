@@ -22,14 +22,14 @@ export default function SignupPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState<string[]>([]);
+    const [error, setError] = useState("");
     const [passwordStrength, setPasswordStrength] = useState<number>(0);
     const [validationErrors, setValidationErrors] = useState<{ [key: string]: string }>({});
     const barRef = useRef<HTMLDivElement>(null);
 
     // Validation
     const validateForm = () => {
-        const newErrors: { [ket: string]: string } = {};
+        const newErrors: { [key: string]: string } = {};
 
         // Username
         if (username.length < 3 || username.length > 30 || !/^[A-Za-z][A-Za-z0-9\-]*$/.test(username)) {
@@ -42,8 +42,8 @@ export default function SignupPage() {
         }
 
         // Password
-        if (!password || password.length < 8 || !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(password)) {
-            newErrors.password = "Password must be at least 8 characters long, and include at least one number, one lowercase letter, and one uppercase letter.";
+        if (!password || password.length < 8 || !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}/.test(password)) {
+            newErrors.password = "Password must be at least 8 characters long and include a mix of uppercase, lowercase, numbers, and special characters.";
         }
 
         // Confirm Password
@@ -100,7 +100,7 @@ export default function SignupPage() {
     // Submit
     const handleSubmit = async (e:React.FormEvent) => {
         e.preventDefault();
-        setErrors([]);
+        setError("");
         setValidationErrors({});
         setLoading(true);
 
@@ -122,7 +122,7 @@ export default function SignupPage() {
         const data = await res.json();
 
         if (!res.ok) {
-            setErrors([data.error || "Failed to register. Please try again."]);
+            setError(data.error || "Failed to register. Please try again.");
             setLoading(false);
             return;
         }
@@ -156,6 +156,14 @@ export default function SignupPage() {
                         </CardHeader>
                         <form onSubmit={handleSubmit}>
                             <CardContent className="mb-5">
+                                {/* Error */}
+                                {error && (
+                                    <Alert className="flex flex-row justify-center bg-red-500/20 border border-red-500/50 text-red-300 p-2 text-sm">
+                                        <BadgeAlert />
+                                        <AlertTitle>{error}</AlertTitle>
+                                    </Alert>
+                                )}
+
                                 <div className="flex flex-col gap-5">
                                     {/* Username */}
                                     <div className="grid gap-2">
