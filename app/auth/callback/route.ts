@@ -12,8 +12,6 @@ export async function GET(request: Request) {
     const supabase = await createClient();
     const { data: { user }, error } = await supabase.auth.exchangeCodeForSession(code);
 
-    console.log("hii");
-
     if (error || !user) {
         console.error("Auth error:", error);
         return redirect("/login?error=auth_failed");
@@ -29,6 +27,7 @@ export async function GET(request: Request) {
     // Google
     if (provider === "google") {
         avatarUrl = metadata.avatar_url || metadata.picture || null;
+
     }
 
     // Discord
@@ -42,6 +41,24 @@ export async function GET(request: Request) {
             avatarUrl = `https://cdn.discordapp.com/avatars/${discordId}/${hash}.${ext}`;
         }
     }
+
+    // Derive a display name from OAuth metadata, falling back to email prefix
+    const userName: string =
+        metadata.full_name ||
+        metadata.name ||
+        (user.email ? user.email.split("@")[0] : "user");
+
+    // Upsert the user's name and avatar so it's never left as "New user"
+    await supabase
+        .from("users")
+        .upsert(
+            {
+                id: user.id,
+                user_name: userName,
+                ...(avatarUrl ? { avatar_url: avatarUrl } : {}),
+            },
+            { onConflict: "id", ignoreDuplicates: false }
+        );
 
     return redirect("/");
 }

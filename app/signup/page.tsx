@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
+import { Turnstile } from '@marsidev/react-turnstile';
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { BadgeCheck, BadgeAlert, Eye, EyeClosed } from "lucide-react";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,6 +26,7 @@ export default function SignupPage() {
     const [error, setError] = useState("");
     const [passwordStrength, setPasswordStrength] = useState<number>(0);
     const [validationErrors, setValidationErrors] = useState<{ [key: string]: string }>({});
+    const [captchaToken, setCaptchaToken] = useState<string | undefined>(undefined)
     const barRef = useRef<HTMLDivElement>(null);
 
     // Validation
@@ -67,7 +69,7 @@ export default function SignupPage() {
         if (/\d/.test(password)) strength += 1;
         if (/[a-z]/.test(password)) strength += 1;
         if (/[A-Z]/.test(password)) strength += 1;
-        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength += 1;
+        if (/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password)) strength += 1;
         setPasswordStrength(strength);
     };
 
@@ -101,10 +103,11 @@ export default function SignupPage() {
     const handleSubmit = async (e:React.FormEvent) => {
         e.preventDefault();
         setError("");
+        setCaptchaToken(undefined);
         setValidationErrors({});
         setLoading(true);
 
-        if (!validateForm()) {
+        if (!validateForm() || !captchaToken) {
             setLoading(false);
             return;
         }
@@ -116,6 +119,7 @@ export default function SignupPage() {
                 username: username.trim(),
                 email: email.trim(),
                 password,
+                captchaToken,
             }),
         });
 
@@ -205,6 +209,12 @@ export default function SignupPage() {
                                         </div>
                                         {validationErrors.confirmPassword && <p className="text-red-400 text-xs">{validationErrors.confirmPassword}</p>}
                                     </div>
+
+                                    {/* Captcha */}
+                                    <Turnstile
+                                        siteKey="0x4AAAAAAFKVeRWkdRUTWTyQ"
+                                        onSuccess={(token) => setCaptchaToken(token)}
+                                    />
                                 </div>
                             </CardContent>
                             <CardFooter>

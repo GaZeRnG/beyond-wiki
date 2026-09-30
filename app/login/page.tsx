@@ -6,6 +6,7 @@ import React, { useState, Suspense } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Turnstile } from '@marsidev/react-turnstile';
 import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/lib/supabase-browser";
 import { Alert, AlertTitle } from "@/components/ui/alert";
@@ -23,6 +24,7 @@ const LoginPageComponent = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [captchaToken, setCaptchaToken] = useState<string | undefined>(undefined)
 
     const registered = searchParams.get('registered') === 'true';
 
@@ -30,6 +32,7 @@ const LoginPageComponent = () => {
         e.preventDefault();
         setLoading(true);
         setError("");
+        setCaptchaToken(undefined);
 
         let loginEmail = email.trim();
 
@@ -48,6 +51,9 @@ const LoginPageComponent = () => {
         const { data, error } = await supabase.auth.signInWithPassword({
             email: loginEmail,
             password,
+            options: {
+                captchaToken: captchaToken
+            }
         });
 
         if (error) {
@@ -132,6 +138,12 @@ const LoginPageComponent = () => {
                                             </Button>
                                         </div>
                                     </div>
+
+                                    {/* Captcha */}
+                                    <Turnstile
+                                        siteKey="0x4AAAAAAFKVeRWkdRUTWTyQ"
+                                        onSuccess={(token) => setCaptchaToken(token)}
+                                    />
                                 </div>
                             </CardContent>
                             <CardFooter className="flex-col gap-2">
