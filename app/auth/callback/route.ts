@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase-server";
+import { createServiceClient } from "@/lib/supabase-service";
 import { redirect } from "next/navigation";
 
 export async function GET(request: Request) {
@@ -39,7 +40,8 @@ export async function GET(request: Request) {
         }
     }
 
-    const { error: upsertError } = await supabase
+    const serviceClient = createServiceClient();
+    const { error: upsertError } = await serviceClient
         .from("users")
         .upsert(
             {
