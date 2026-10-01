@@ -22,38 +22,25 @@ export async function GET(request: Request) {
     const provider = user.app_metadata?.provider ?? "oauth";
 
     // Username
-    const userName: string =
+    const userName = 
         metadata.full_name ||
         metadata.name ||
-        (user.email ? user.email.split("@")[0] : "user");
+        user.email?.split("@")[0]
 
     // Avatar
-    let avatarUrl: string | null = metadata.avatar_url || metadata.picture || null;
-
-    if (provider === "discord" && !avatarUrl) {
-        const customClaims = metadata.custom_claims ?? {};
-        if (customClaims.avatar && metadata.provider_id) {
-            const hash = String(customClaims.avatar);
-            const discordId = String(metadata.provider_id);
-            const ext = hash.startsWith("a_") ? "gif" : "png";
-            avatarUrl = `https://cdn.discordapp.com/avatars/${discordId}/${hash}.${ext}`;
-        }
-    }
+    let avatarUrl = metadata.avatar_url || metadata.picture || null;
 
     const serviceClient = createServiceClient();
     const { error: upsertError } = await serviceClient
         .from("users")
-        .upsert(
-            {
-                id: user.id,
-                user_name: userName,
-                user_avatar: avatarUrl,
-            },
-            { onConflict: "id", ignoreDuplicates: false }
-        );
+        .upsert({
+            id: user.id,
+            user_name: userName,
+            user_avatar: avatarUrl,
+        }, { onConflict: "id" });
 
     if (upsertError) {
-        console.error("Profile upsert error:", upsertError);
+        console.error("Upsert error:", upsertError);
     }
 
     return redirect("/");
