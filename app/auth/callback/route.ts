@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase-server";
 import { redirect } from "next/navigation";
 
 export async function GET(request: Request) {
-    const { searchParams, origin } = new URL(request.url);
+    const { searchParams } = new URL(request.url);
     const code = searchParams.get("code");
 
     if (!code) {
@@ -17,24 +17,21 @@ export async function GET(request: Request) {
         return redirect("/login?error=auth_failed");
     }
 
-    const metadata = user.user_metadata || {};
-    const customClaims = metadata.custom_claims || {};
-    const provider = user.app_metadata?.provider || "oauth";
+    const metadata = user.user_metadata ?? {};
+    const provider = user.app_metadata?.provider ?? "oauth";
 
-    // Extract avatar
-    let avatarUrl: string | null = null;
+    // Username
+    const userName: string =
+        metadata.full_name ||
+        metadata.name ||
+        (user.email ? user.email.split("@")[0] : "user");
 
-    // Google
-    if (provider === "google") {
-        avatarUrl = metadata.avatar_url || metadata.picture || null;
+    // Avatar
+    let avatarUrl: string | null = metadata.avatar_url || metadata.picture || null;
 
-    }
-
-    // Discord
-    if (provider === "discord") {
-        avatarUrl = metadata.avatar_url || metadata.picture || null;
-
-        if (!avatarUrl && customClaims.avatar && metadata.provider_id) {
+    if (provider === "discord" && !avatarUrl) {
+        const customClaims = metadata.custom_claims ?? {};
+        if (customClaims.avatar && metadata.provider_id) {
             const hash = String(customClaims.avatar);
             const discordId = String(metadata.provider_id);
             const ext = hash.startsWith("a_") ? "gif" : "png";
@@ -42,23 +39,20 @@ export async function GET(request: Request) {
         }
     }
 
-    // Derive a display name from OAuth metadata, falling back to email prefix
-    const userName: string =
-        metadata.full_name ||
-        metadata.name ||
-        (user.email ? user.email.split("@")[0] : "user");
-
-    // Upsert the user's name and avatar so it's never left as "New user"
-    await supabase
+    const { error: upsertError } = await supabase
         .from("users")
         .upsert(
             {
                 id: user.id,
                 user_name: userName,
-                ...(avatarUrl ? { avatar_url: avatarUrl } : {}),
+                user_avatar: avatarUrl,
             },
             { onConflict: "id", ignoreDuplicates: false }
         );
+
+    if (upsertError) {
+        console.error("Profile upsert error:", upsertError);
+    }
 
     return redirect("/");
 }
