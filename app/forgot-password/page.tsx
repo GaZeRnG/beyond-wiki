@@ -88,7 +88,7 @@ const PasswordResetPageComponent = () => {
         }
 
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            // OTP flow — no redirectTo needed for 6-digit OTP
+            captchaToken,
         });
 
         if (error) {
@@ -193,7 +193,7 @@ const PasswordResetPageComponent = () => {
                             )}
                         </CardHeader>
 
-                        {/* ── Step 1: Email + Captcha ── */}
+                        {/* Step 1: Email */}
                         {step === "email" && (
                             <form onSubmit={handleEmailSubmit}>
                                 <CardContent className="mb-5">
@@ -230,7 +230,7 @@ const PasswordResetPageComponent = () => {
                             </form>
                         )}
 
-                        {/* ── Step 2: OTP ── */}
+                        {/* Step 2: OTP  */}
                         {step === "otp" && (
                             <form onSubmit={handleOtpSubmit}>
                                 <CardContent className="mb-5">
@@ -278,7 +278,7 @@ const PasswordResetPageComponent = () => {
                             </form>
                         )}
 
-                        {/* ── Step 3: New Password ── */}
+                        {/* Step 3: New Password */}
                         {step === "password" && (
                             <form onSubmit={handlePasswordSubmit}>
                                 <CardContent className="mb-5">
