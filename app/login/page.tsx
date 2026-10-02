@@ -127,7 +127,7 @@ const LoginPageComponent = () => {
                                     <div className="grid gap-2">
                                         <div className="flex items-center">
                                             <Label htmlFor="password">Password</Label>
-                                            <a href="#" className="ml-auto text-sm text-muted-foreground hover:underline">
+                                            <a href="/forgot-password" className="ml-auto text-sm text-muted-foreground hover:underline">
                                                 Forgot your Password?
                                             </a>
                                         </div>
