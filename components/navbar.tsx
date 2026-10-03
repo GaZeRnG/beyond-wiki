@@ -112,7 +112,7 @@ export default function Navbar({page = ""}: {page?: string}) {
     }
 
     return (
-        <nav className="grid grid-cols-[1fr_2fr_1fr] fixed w-full h-15 top-0 z-100 px-2 bg-background">
+        <nav className="grid grid-cols-[1fr_2fr_1fr] fixed w-full h-15 top-0 z-100 px-2">
             {/* Logo */}
             <section className="flex flex-row items-center justify-self-start">
                 {isHub ? (
@@ -148,7 +148,7 @@ export default function Navbar({page = ""}: {page?: string}) {
             {/* Login/Account Icon */}
             <section className="flex flex-row items-center justify-self-end">
                 {/* Toggle Theme */}
-                <Button variant="outline" size="icon" className="mr-2 cursor-pointer" onClick={ DoTheme }>
+                <Button variant="secondary" size="icon" className="mr-2 cursor-pointer" onClick={ DoTheme }>
                     <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
                     <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
                     <span className="sr-only">Toggle theme</span>
@@ -184,10 +184,6 @@ export default function Navbar({page = ""}: {page?: string}) {
                                 Logout
                             </DropdownMenuItem>
                         </DropdownMenuContent>
-                        {/* <Avatar size="lg">
-                            <AvatarImage src={userData?.user_avatar} alt="Profile" />
-                            <AvatarFallback>{userData?.user_name[0].toUpperCase()}</AvatarFallback>
-                        </Avatar> */}
                     </DropdownMenu>
                 ) : (
                     <Button className="flex items-center h-10 rounded-sm px-2 bg-primary text-primary-foreground">

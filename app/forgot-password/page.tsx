@@ -97,7 +97,7 @@ const PasswordResetPageComponent = () => {
             return;
         }
 
-        setSuccess("A 6-digit code has been sent to your email.");
+        setSuccess(`A 6-digit code has been sent to your email.`);
         setLoading(false);
         setStep("otp");
     };
@@ -153,7 +153,7 @@ const PasswordResetPageComponent = () => {
         router.push("/login");
     };
 
-    // --- Step titles & descriptions ---
+    // Step titles & descriptions 
     const stepMeta = {
         email: {
             title: "Forgot Password",
