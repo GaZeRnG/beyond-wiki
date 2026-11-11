@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { animate } from 'animejs';
+import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
 import { Turnstile } from '@marsidev/react-turnstile';
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { BadgeCheck, BadgeAlert, Eye, EyeClosed } from "lucide-react";
+import { BadgeAlert, Eye, EyeClosed, Sun, Moon } from "lucide-react";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function SignupPage() {
@@ -28,6 +29,25 @@ export default function SignupPage() {
     const [validationErrors, setValidationErrors] = useState<{ [key: string]: string }>({});
     const [captchaToken, setCaptchaToken] = useState<string | undefined>(undefined)
     const barRef = useRef<HTMLDivElement>(null);
+
+    const { setTheme, theme } = useTheme();
+
+    // Themes
+    const DoLight = () => {
+        setTheme("light");
+    }
+    
+    const DoDark = () => {
+        setTheme("dark");
+    }
+
+    const DoTheme = () => {
+        if (theme === "light") {
+            DoDark();
+        } else {
+            DoLight();
+        }
+    }
 
     // Validation
     const validateForm = () => {
@@ -135,17 +155,25 @@ export default function SignupPage() {
     };
 
     return (
-        <main>
+        <main className="h-screen w-full bg-[linear-gradient(to_bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.6)),url('/background/BWikiLogin.svg')] bg-cover bg-center bg-no-repeat">
             {/* Card */}
             <section className="h-screen grid place-items-center">
                 <div className="flex flex-col w-full max-w-sm">
-                    <p className="place-items-start pl-2">
-                        <Button variant="link" className="text-foreground pb-4">
-                            <Link href="/">
-                                <Image src="/logo/Beyond_Wiki_logo.svg" alt="Beyond Wiki Logo" width={80} height={40} />
-                            </Link>
+                    <div className="flex flex-row place-content-between">
+                        <p className="place-items-start pl-2">
+                            <Button variant="link" className="text-foreground pb-4">
+                                <Link href="/">
+                                    <Image src="/logo/Beyond_Wiki_logo.svg" alt="Beyond Wiki Logo" width={80} height={40} />
+                                </Link>
+                            </Button>
+                        </p>
+                        {/* Toggle Theme */}
+                        <Button variant="secondary" size="icon" className="mr-2 mb-1 cursor-pointer" onClick={ DoTheme }>
+                            <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+                            <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+                            <span className="sr-only">Toggle theme</span>
                         </Button>
-                    </p>
+                    </div>
                     <Card className="w-full max-w-sm">
                         <CardHeader>
                             <CardTitle>Signup To Beyond Wiki</CardTitle>

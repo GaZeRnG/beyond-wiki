@@ -159,7 +159,7 @@ export default function Navbar({page = ""}: {page?: string}) {
                     <DropdownMenu>
                         <DropdownMenuTrigger render={<Button variant="ghost" size="icon" className="rounded-full">
                             <Avatar size="lg">
-                                <AvatarImage src={userData?.user_avatar} alt="Progile" />
+                                <AvatarImage src={userData?.user_avatar} alt="Profile" />
                                 <AvatarFallback>{userData?.user_name[0].toUpperCase()}</AvatarFallback>
                             </Avatar>
                         </Button>} />

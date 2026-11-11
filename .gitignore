@@ -3,6 +3,12 @@
 # VS Code
 /.vscode
 
+# agents
+.agents
+
+# Qwen
+.qwen
+
 # dependencies
 /node_modules
 /.pnp

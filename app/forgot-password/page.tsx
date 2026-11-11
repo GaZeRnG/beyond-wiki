@@ -120,7 +120,6 @@ const PasswordResetPageComponent = () => {
             return;
         }
 
-        setLoading(false);
         setStep("password");
     };
 
@@ -156,7 +155,7 @@ const PasswordResetPageComponent = () => {
     // Step titles & descriptions 
     const stepMeta = {
         email: {
-            title: "Forgot Password",
+            title: "Reset Password",
             description: "Enter your account email and we'll send you a 6-digit reset code.",
         },
         otp: {
@@ -170,7 +169,7 @@ const PasswordResetPageComponent = () => {
     };
 
     return (
-        <main>
+        <main className="h-screen w-full bg-[linear-gradient(to_bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.6)),url('/background/BWikiLogin.svg')] bg-cover bg-center bg-no-repeat">
             <section className="h-screen grid place-items-center">
                 <div className="flex flex-col w-full max-w-sm">
                     <p className="place-items-start pl-2">
