@@ -16,7 +16,7 @@ export default function Home() {
             </div>
 
             <div className="fixed inset-0 z-10 flex items-start justify-center pointer-events-none pt-40 md:pt-30 lg:pt-40 xl:pt-50">
-                <Image src="/logo/Beyond_wiki_logo.svg" alt="Beyond Wiki Logo" width={400} height={200} className="w-[75vw] max-w-70 sm:max-w-90 md:max-w-110 h-auto select-none"/>
+                <Image src="/logo/Beyond_Wiki_logo.svg" alt="Beyond Wiki Logo" width={400} height={200} className="w-[75vw] max-w-70 sm:max-w-90 md:max-w-110 h-auto select-none"/>
 
             </div>
         </main>
