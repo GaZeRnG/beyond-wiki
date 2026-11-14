@@ -28,7 +28,7 @@ export default function Home() {
             <div className="fixed inset-0 flex flex-col justify-center pointer-events-none z-10 select-none">
                 <div className="h-1/3 w-full flex items-center justify-center">
                     <Image
-                        src="/logo/Beyond_wiki_logo.svg"
+                        src="/logo/Beyond_Wiki_logo.svg"
                         alt="Beyond Wiki Logo"
                         width={400}
                         height={200}
